@@ -309,7 +309,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT my_leader                                               AS \"Leader\",\n       opp_domain                                              AS \"vs Domain\",\n       COUNT(*)                                                AS \"Games\",\n       ROUND(100.0 * COUNT(*) FILTER (WHERE won) / COUNT(*), 1) AS \"Win %\"\nFROM (\n       SELECT my_leader, opp_domain_1 AS opp_domain, won, played_on FROM games\n       UNION ALL\n       SELECT my_leader, opp_domain_2 AS opp_domain, won, played_on FROM games\n     ) x\nWHERE opp_domain IS NOT NULL AND $__timeFilter(played_on)\nGROUP BY 1, 2\nHAVING COUNT(*) >= 3\nORDER BY 1, 4 DESC",
+                        "rawSql": "SELECT my_leader                                               AS \"Leader\",\n       opp_domain                                              AS \"vs Domain\",\n       COUNT(*)                                                AS \"Games\",\n       ROUND(100.0 * COUNT(*) FILTER (WHERE won) / COUNT(*), 1) AS \"Win %\"\nFROM (\n       SELECT my_leader, opp_domain_1 AS opp_domain, won, played_on FROM games\n       UNION ALL\n       SELECT my_leader, opp_domain_2 AS opp_domain, won, played_on FROM games\n     ) x\nWHERE opp_domain IS NOT NULL AND $__timeFilter(played_on)\nGROUP BY 1, 2\nHAVING COUNT(*) \u003e= 3\nORDER BY 1, 4 DESC",
                         "sql": {
                           "columns": [
                             {
@@ -1280,7 +1280,20 @@
               },
               "height": 8,
               "width": 12,
-              "x": 6,
+              "x": 0,
+              "y": 17
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-7"
+              },
+              "height": 8,
+              "width": 8,
+              "x": 12,
               "y": 17
             }
           },
@@ -1306,7 +1319,7 @@
               },
               "height": 8,
               "width": 8,
-              "x": 0,
+              "x": 4,
               "y": 37
             }
           },
@@ -1319,20 +1332,7 @@
               },
               "height": 8,
               "width": 8,
-              "x": 8,
-              "y": 37
-            }
-          },
-          {
-            "kind": "GridLayoutItem",
-            "spec": {
-              "element": {
-                "kind": "ElementReference",
-                "name": "panel-7"
-              },
-              "height": 8,
-              "width": 8,
-              "x": 16,
+              "x": 13,
               "y": 37
             }
           },
