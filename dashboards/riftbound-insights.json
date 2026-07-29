@@ -309,7 +309,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT domain                                                  AS \"Domain\",\n       COUNT(*)                                                AS \"Games\",\n       ROUND(100.0 * COUNT(*) FILTER (WHERE won) / COUNT(*), 1) AS \"Win %\"\nFROM game_domains\nWHERE side = 'me' AND $__timeFilter(played_on)\nGROUP BY domain\nORDER BY 3 DESC",
+                        "rawSql": "SELECT my_leader                                               AS \"Leader\",\n       opp_domain                                              AS \"vs Domain\",\n       COUNT(*)                                                AS \"Games\",\n       ROUND(100.0 * COUNT(*) FILTER (WHERE won) / COUNT(*), 1) AS \"Win %\"\nFROM (\n       SELECT my_leader, opp_domain_1 AS opp_domain, won, played_on FROM games\n       UNION ALL\n       SELECT my_leader, opp_domain_2 AS opp_domain, won, played_on FROM games\n     ) x\nWHERE opp_domain IS NOT NULL AND $__timeFilter(played_on)\nGROUP BY 1, 2\nHAVING COUNT(*) >= 3\nORDER BY 1, 4 DESC",
                         "sql": {
                           "columns": [
                             {
@@ -331,10 +331,10 @@
               "transformations": []
             }
           },
-          "description": "Counts each domain of your legend separately, so a two-domain deck lands in both rows.",
+          "description": "How each of your leaders performs against each opposing domain. Both of the opponent's domains count, so a game lands in two rows. Cells with at least 3 games.",
           "id": 3,
           "links": [],
-          "title": "Win rate by domain",
+          "title": "Leader vs opposing domain",
           "vizConfig": {
             "group": "table",
             "kind": "VizConfig",
