@@ -152,7 +152,7 @@
                 },
                 "showPercentChange": false,
                 "textMode": "auto",
-                "wideLayout": true
+                "wideLayout": false
               }
             },
             "version": "13.2.0-29988805803"
