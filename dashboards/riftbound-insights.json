@@ -1394,12 +1394,13 @@
       }
     },
     "layout": {
-      "kind": "TabsLayout",
+      "kind": "RowsLayout",
       "spec": {
-        "tabs": [
+        "rows": [
           {
-            "kind": "TabsLayoutTab",
+            "kind": "RowsLayoutRow",
             "spec": {
+              "collapse": true,
               "title": "Match stats",
               "layout": {
                 "kind": "GridLayout",
@@ -1528,8 +1529,9 @@
             }
           },
           {
-            "kind": "TabsLayoutTab",
+            "kind": "RowsLayoutRow",
             "spec": {
+              "collapse": true,
               "title": "Pack Openings",
               "layout": {
                 "kind": "GridLayout",
