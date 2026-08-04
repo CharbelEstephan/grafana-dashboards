@@ -1373,11 +1373,11 @@
       "panel-23": {
         "kind": "Panel",
         "spec": {
-          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT po.acquired_on AS \"Date\", po.set_name AS \"Set\", po.product AS \"Product\", v.rarity AS \"Chase\", v.cnt AS \"Count\" FROM openings po CROSS JOIN LATERAL (VALUES ('Signature', po.hit_signature),('Ultimate', po.hit_ultimate),('Nexus Night Chase', po.hit_nn_chase)) AS v(rarity, cnt) WHERE v.cnt > 0 AND $__timeFilter(po.acquired_on) ORDER BY po.acquired_on DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
-          "description": "Every T6 chase pull: Signature, Ultimate, Nexus Night Chase. Count > 1 means multiple from one opening.",
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT o.acquired_on AS \"Date\", oc.card_name AS \"Card\", oc.rarity AS \"Rarity\", o.set_name AS \"Set\", o.product AS \"Product\" FROM opening_cards oc JOIN openings o ON o.id = oc.opening_id WHERE $__timeFilter(o.acquired_on) ORDER BY o.acquired_on DESC, oc.id DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Every named premium pull (Alt Art and up) entered on the Pulls form: Alt Art, SP Rare, Overnumber, Signature, Ultimate, Nexus Night Chase. Name a card when you log it and it appears here. Hits logged before card capture, or left unnamed, won't show.",
           "id": 23,
           "links": [],
-          "title": "Chase log",
+          "title": "Hit log",
           "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
         }
       },
