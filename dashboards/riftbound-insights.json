@@ -1226,12 +1226,174 @@
             "version": "13.2.0-29988805803"
           }
         }
+      },
+      "panel-10": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT SUM(quantity) AS \"Total packs\" FROM openings WHERE $__timeFilter(acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Every pack / sleeve / vault logged in range. This is the denominator for every rate below.",
+          "id": 10,
+          "links": [],
+          "title": "Total packs opened",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"text","mode":"fixed"},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"colorMode":"value","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT ROUND(SUM(hit_epic + hit_fa_rune + hit_sig_spell + hit_alt_art + hit_sp_rare + hit_overnumber + hit_signature + hit_ultimate + hit_nn_chase)::numeric / NULLIF(SUM(quantity),0), 2) AS \"Hits per pack\" FROM openings WHERE $__timeFilter(acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Tier 3+ pulls per pack opened. A 'hit' = Epic and above.",
+          "id": 11,
+          "links": [],
+          "title": "Hits per pack (T3+)",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"text","mode":"fixed"},"decimals":2,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"colorMode":"value","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT SUM(hit_signature + hit_ultimate + hit_nn_chase) AS \"Chase pulls\" FROM openings WHERE $__timeFilter(acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Total T6 pulls: Signature + Ultimate + Nexus Night Chase.",
+          "id": 12,
+          "links": [],
+          "title": "Chase pulls (T6)",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"#D9A441","mode":"fixed"},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"colorMode":"value","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-13": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT CASE WHEN COALESCE(SUM(hit_dbl_leader),0) = 0 THEN 'None yet' ELSE '1 in ' || ROUND(SUM(quantity)::numeric / SUM(hit_dbl_leader))::text || ' packs' END AS \"Double Leader rate\" FROM openings WHERE $__timeFilter(acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "The bad-beat stat. T1 Double Leader is below the normal floor: how many packs between them.",
+          "id": 13,
+          "links": [],
+          "title": "Double Leader rate",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"text","mode":"fixed"},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"colorMode":"none","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-14": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT ROUND(SUM(v.tier * v.cnt)::numeric / NULLIF(SUM(v.cnt),0), 2) AS \"Avg pull tier\" FROM openings po CROSS JOIN LATERAL (VALUES (1, po.hit_dbl_leader),(2, po.hit_leader),(2, po.hit_rare),(3, po.hit_epic),(3, po.hit_fa_rune),(3, po.hit_sig_spell),(4, po.hit_alt_art),(4, po.hit_sp_rare),(5, po.hit_overnumber),(6, po.hit_signature),(6, po.hit_ultimate),(6, po.hit_nn_chase)) AS v(tier, cnt) WHERE $__timeFilter(po.acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Weighted mean tier across all pulls (T1 worst -> T6 chase). Higher = luckier mix.",
+          "id": 14,
+          "links": [],
+          "title": "Avg pull tier",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"text","mode":"fixed"},"decimals":2,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"colorMode":"value","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-15": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH tiers(tier, p, points) AS (VALUES (3, 0.25, 4),(4, 0.083, 12),(5, 0.014, 72),(6, 0.0014, 720)) SELECT ROUND(SUM(v.cnt * COALESCE(t.points,0))::numeric / NULLIF((SELECT SUM(quantity) FROM openings WHERE $__timeFilter(acquired_on)),0), 2) AS \"Pack Luck Score\" FROM openings po CROSS JOIN LATERAL (VALUES (1, po.hit_dbl_leader),(2, po.hit_leader),(2, po.hit_rare),(3, po.hit_epic),(3, po.hit_fa_rune),(3, po.hit_sig_spell),(4, po.hit_alt_art),(4, po.hit_sp_rare),(5, po.hit_overnumber),(6, po.hit_signature),(6, po.hit_ultimate),(6, po.hit_nn_chase)) AS v(tier, cnt) LEFT JOIN tiers t ON t.tier = v.tier WHERE $__timeFilter(po.acquired_on)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Avg points per pack. Point weight = 1/p per hit (T3=4, T4=12, T5=72, T6=720). 4 = baseline expected: green above, red below.",
+          "id": 15,
+          "links": [],
+          "title": "Pack Luck Score",
+          "vizConfig": {"group":"stat","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"thresholds"},"decimals":2,"thresholds":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#0E8C6E","value":4}]}},"overrides":[]},"options":{"colorMode":"value","graphMode":"none","justifyMode":"auto","orientation":"auto","percentChangeColorMode":"standard","reduceOptions":{"calcs":["lastNotNull"],"fields":"","values":false},"showPercentChange":false,"textMode":"auto","wideLayout":false}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-16": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT 'T' || v.tier AS \"Tier\", SUM(v.cnt) AS \"Pulls\" FROM openings po CROSS JOIN LATERAL (VALUES (1, po.hit_dbl_leader),(2, po.hit_leader),(2, po.hit_rare),(3, po.hit_epic),(3, po.hit_fa_rune),(3, po.hit_sig_spell),(4, po.hit_alt_art),(4, po.hit_sp_rare),(5, po.hit_overnumber),(6, po.hit_signature),(6, po.hit_ultimate),(6, po.hit_nn_chase)) AS v(tier, cnt) WHERE $__timeFilter(po.acquired_on) GROUP BY v.tier ORDER BY v.tier","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Total pulls per tier, T1 (floor/bad-beat) -> T6 (chase).",
+          "id": 16,
+          "links": [],
+          "title": "Tier distribution",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"auto","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH totals AS (SELECT SUM(quantity) AS packs FROM openings WHERE $__timeFilter(acquired_on)) SELECT v.rarity AS \"Rarity\", 'T' || v.tier AS \"Tier\", SUM(v.cnt) AS \"Pulled\", CASE WHEN SUM(v.cnt) = 0 THEN '—' WHEN SUM(v.cnt) >= (SELECT packs FROM totals) THEN ROUND(SUM(v.cnt)::numeric / NULLIF((SELECT packs FROM totals),0), 2)::text || ' per pack' ELSE '1 in ' || ROUND((SELECT packs FROM totals)::numeric / SUM(v.cnt))::text || ' packs' END AS \"Rate\" FROM openings po CROSS JOIN LATERAL (VALUES ('Double Leader',1,po.hit_dbl_leader),('Leader',2,po.hit_leader),('Rare',2,po.hit_rare),('Epic',3,po.hit_epic),('Full Art Rune',3,po.hit_fa_rune),('Signature Spell',3,po.hit_sig_spell),('Alt Art',4,po.hit_alt_art),('SP Rare',4,po.hit_sp_rare),('Overnumber',5,po.hit_overnumber),('Signature',6,po.hit_signature),('Ultimate',6,po.hit_ultimate),('Nexus Night Chase',6,po.hit_nn_chase)) AS v(rarity, tier, cnt) WHERE $__timeFilter(po.acquired_on) GROUP BY v.rarity, v.tier ORDER BY v.tier, v.rarity","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Per-rarity totals and pull rate. Adaptive: >= once per pack shows 'X per pack', otherwise '1 in X packs'. Sorted by tier then rarity.",
+          "id": 17,
+          "links": [],
+          "title": "Per-rarity rate",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"time_series","rawQuery":true,"rawSql":"SELECT date_trunc('week', acquired_on) AS \"time\", ROUND(SUM(hit_epic + hit_fa_rune + hit_sig_spell + hit_alt_art + hit_sp_rare + hit_overnumber + hit_signature + hit_ultimate + hit_nn_chase)::numeric / NULLIF(SUM(quantity),0), 2) AS \"Hits per pack\" FROM openings WHERE $__timeFilter(acquired_on) GROUP BY 1 ORDER BY 1","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "T3+ hits per pack, grouped by week.",
+          "id": 18,
+          "links": [],
+          "title": "Hits per pack over time (weekly)",
+          "vizConfig": {"group":"timeseries","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","barAlignment":0,"barWidthFactor":0.6,"drawStyle":"line","fillOpacity":10,"gradientMode":"opacity","hideFrom":{"legend":false,"tooltip":false,"viz":false},"insertNulls":false,"lineInterpolation":"smooth","lineWidth":2,"pointSize":5,"scaleDistribution":{"type":"linear"},"showPoints":"auto","showValues":false,"spanNulls":true,"stacking":{"group":"A","mode":"none"},"thresholdsStyle":{"mode":"off"}},"decimals":2,"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"#4C4FE0","value":0}]}},"overrides":[]},"options":{"annotations":{"clustering":-1,"multiLane":false},"legend":{"calcs":[],"displayMode":"list","enableFacetedFilter":false,"overflow":"ellipsis","placement":"bottom","showLegend":true},"tooltip":{"hideZeros":false,"mode":"single","sort":"none"}}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"time_series","rawQuery":true,"rawSql":"WITH tiers(tier, p, points) AS (VALUES (3, 0.25, 4),(4, 0.083, 12),(5, 0.014, 72),(6, 0.0014, 720)), pts AS (SELECT date_trunc('week', po.acquired_on) AS wk, SUM(v.cnt * COALESCE(t.points,0)) AS points FROM openings po CROSS JOIN LATERAL (VALUES (1, po.hit_dbl_leader),(2, po.hit_leader),(2, po.hit_rare),(3, po.hit_epic),(3, po.hit_fa_rune),(3, po.hit_sig_spell),(4, po.hit_alt_art),(4, po.hit_sp_rare),(5, po.hit_overnumber),(6, po.hit_signature),(6, po.hit_ultimate),(6, po.hit_nn_chase)) AS v(tier, cnt) LEFT JOIN tiers t ON t.tier = v.tier WHERE $__timeFilter(po.acquired_on) GROUP BY 1), q AS (SELECT date_trunc('week', acquired_on) AS wk, SUM(quantity) AS packs FROM openings WHERE $__timeFilter(acquired_on) GROUP BY 1) SELECT q.wk AS \"time\", ROUND(pts.points::numeric / NULLIF(q.packs,0), 2) AS \"Luck score\" FROM q JOIN pts ON pts.wk = q.wk ORDER BY q.wk","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Weekly Pack Luck Score (points per pack). Amber line marks the baseline of 4.",
+          "id": 19,
+          "links": [],
+          "title": "Luck score over time (weekly)",
+          "vizConfig": {"group":"timeseries","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","barAlignment":0,"barWidthFactor":0.6,"drawStyle":"line","fillOpacity":10,"gradientMode":"opacity","hideFrom":{"legend":false,"tooltip":false,"viz":false},"insertNulls":false,"lineInterpolation":"smooth","lineWidth":2,"pointSize":5,"scaleDistribution":{"type":"linear"},"showPoints":"auto","showValues":false,"spanNulls":true,"stacking":{"group":"A","mode":"none"},"thresholdsStyle":{"mode":"line"}},"decimals":2,"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"transparent","value":0},{"color":"#D9A441","value":4}]}},"overrides":[]},"options":{"annotations":{"clustering":-1,"multiLane":false},"legend":{"calcs":[],"displayMode":"list","enableFacetedFilter":false,"overflow":"ellipsis","placement":"bottom","showLegend":true},"tooltip":{"hideZeros":false,"mode":"single","sort":"none"}}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-20": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT set_name AS \"Set\", ROUND(SUM(hit_epic + hit_fa_rune + hit_sig_spell + hit_alt_art + hit_sp_rare + hit_overnumber + hit_signature + hit_ultimate + hit_nn_chase)::numeric / NULLIF(SUM(quantity),0), 2) AS \"Hits per pack\" FROM openings WHERE $__timeFilter(acquired_on) GROUP BY set_name ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "T3+ hits per pack, by set.",
+          "id": 20,
+          "links": [],
+          "title": "Hits per pack by set",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT product AS \"Product\", ROUND(SUM(hit_epic + hit_fa_rune + hit_sig_spell + hit_alt_art + hit_sp_rare + hit_overnumber + hit_signature + hit_ultimate + hit_nn_chase)::numeric / NULLIF(SUM(quantity),0), 2) AS \"Hits per pack\" FROM openings WHERE $__timeFilter(acquired_on) GROUP BY product ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "T3+ hits per pack, by product type.",
+          "id": 21,
+          "links": [],
+          "title": "Hits per pack by product",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-22": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH tiers(tier, p, points) AS (VALUES (3, 0.25, 4),(4, 0.083, 12),(5, 0.014, 72),(6, 0.0014, 720)), totals AS (SELECT SUM(quantity) AS packs FROM openings WHERE $__timeFilter(acquired_on)), actual AS (SELECT v.tier, SUM(v.cnt) AS pulls FROM openings po CROSS JOIN LATERAL (VALUES (3,po.hit_epic),(3,po.hit_fa_rune),(3,po.hit_sig_spell),(4,po.hit_alt_art),(4,po.hit_sp_rare),(5,po.hit_overnumber),(6,po.hit_signature),(6,po.hit_ultimate),(6,po.hit_nn_chase)) AS v(tier, cnt) WHERE $__timeFilter(po.acquired_on) GROUP BY v.tier) SELECT 'T' || t.tier AS \"Tier\", (SELECT packs FROM totals) AS \"Packs\", COALESCE(a.pulls, 0) AS \"Actual\", ROUND((SELECT packs FROM totals) * t.p, 1) AS \"Expected\", ROUND(COALESCE(a.pulls,0) - (SELECT packs FROM totals) * t.p, 1) AS \"Delta\" FROM tiers t LEFT JOIN actual a ON a.tier = t.tier ORDER BY t.tier","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Expected = total packs * baseline p. Delta = actual - expected (green = luckier than baseline, red = unluckier). 'Packs' column shows sample size so small-n noise is obvious.",
+          "id": 22,
+          "links": [],
+          "title": "Expected vs actual by tier",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Delta"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"mode":"thresholds"}},{"id":"thresholds","value":{"mode":"absolute","steps":[{"color":"#C4453B","value":null},{"color":"#0E8C6E","value":0}]}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT po.acquired_on AS \"Date\", po.set_name AS \"Set\", po.product AS \"Product\", v.rarity AS \"Chase\", v.cnt AS \"Count\" FROM openings po CROSS JOIN LATERAL (VALUES ('Signature', po.hit_signature),('Ultimate', po.hit_ultimate),('Nexus Night Chase', po.hit_nn_chase)) AS v(rarity, cnt) WHERE v.cnt > 0 AND $__timeFilter(po.acquired_on) ORDER BY po.acquired_on DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Every T6 chase pull: Signature, Ultimate, Nexus Night Chase. Count > 1 means multiple from one opening.",
+          "id": 23,
+          "links": [],
+          "title": "Chase log",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
-      "kind": "GridLayout",
+      "kind": "TabsLayout",
       "spec": {
-        "items": [
+        "tabs": [
+          {
+            "kind": "TabsLayoutTab",
+            "spec": {
+              "title": "Match stats",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
           {
             "kind": "GridLayoutItem",
             "spec": {
@@ -1347,6 +1509,38 @@
               "width": 24,
               "x": 0,
               "y": 45
+            }
+          }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "TabsLayoutTab",
+            "spec": {
+              "title": "Pack Openings",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-10"},"height":5,"width":4,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-11"},"height":5,"width":4,"x":4,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-12"},"height":5,"width":4,"x":8,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-13"},"height":5,"width":4,"x":12,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-14"},"height":5,"width":4,"x":16,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-15"},"height":5,"width":4,"x":20,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-16"},"height":9,"width":10,"x":0,"y":5}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-17"},"height":9,"width":14,"x":10,"y":5}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-18"},"height":8,"width":12,"x":0,"y":14}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-19"},"height":8,"width":12,"x":12,"y":14}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-20"},"height":8,"width":8,"x":0,"y":22}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-21"},"height":8,"width":8,"x":8,"y":22}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-22"},"height":8,"width":8,"x":16,"y":22}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-23"},"height":9,"width":24,"x":0,"y":30}}
+                  ]
+                }
+              }
             }
           }
         ]
