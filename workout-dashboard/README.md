@@ -21,9 +21,11 @@ workout-dashboard/
     load.py                  # idempotent loader (entrypoint)
     parse.py                 # CSV section-splitter, row parsers, classifier
   grafana/
-    dashboard.json           # importable Grafana dashboard model
-    datasource.md            # how to wire the Neon Postgres datasource
+    datasource.md            # how to wire the datasource + Git Sync steps
   data/                      # drop exports here (gitignored)
+
+# The dashboard itself is a Git-Sync resource one level up, alongside riftbound:
+../dashboards/workout-insights.json   # dashboard.grafana.app/v2 format
 ```
 
 ## Setup
@@ -45,8 +47,11 @@ workout-dashboard/
    The first run automatically applies `sql/001_schema.sql`, `sql/003_seed_muscle_map.sql`,
    and `sql/002_views.sql`, then loads the CSV and prints a validation report.
 
-4. **In Grafana:** add the Postgres data source (see [`grafana/datasource.md`](grafana/datasource.md)),
-   then **Import** `grafana/dashboard.json` and pick that data source. Done.
+4. **In Grafana:** the dashboard is provisioned via **Git Sync** from
+   [`dashboards/workout-insights.json`](../dashboards/workout-insights.json) (repo root, same
+   `dashboard.grafana.app/v2` format and folder as the riftbound dashboard). Create the
+   Postgres data source, drop its UID into that file, and commit — see
+   [`grafana/datasource.md`](grafana/datasource.md) for the exact steps. Done.
 
 ## Re-importing new data
 

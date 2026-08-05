@@ -1,41 +1,50 @@
-# Wiring the Neon Postgres data source in Grafana
+# Wiring Grafana (Git Sync) for the workout dashboard
 
-The dashboard queries the `workout` schema through a **PostgreSQL** data source.
+The dashboard resource lives at **`dashboards/workout-insights.json`** (repo root), in the
+`dashboard.grafana.app/v2` format — the same format and folder your riftbound dashboard uses.
+Grafana **Git Sync** provisions it automatically once it's committed with a real datasource UID.
 
-## 1. Add the data source
-Grafana → **Connections → Data sources → Add data source → PostgreSQL**, then fill in
-the values from your Neon connection string
-(`postgresql://USER:PASSWORD@HOST/DBNAME?sslmode=require`):
+Unlike a manual import, a Git-synced dashboard references its Postgres datasource **by UID**
+baked into the JSON — there's no import-time datasource picker. So the one manual step is
+replacing the placeholder UID.
 
-| Field | Value |
-|---|---|
-| **Host** | `ep-xxxx-xxxx.us-east-2.aws.neon.tech:5432` (the host from the URL, `:5432`) |
-| **Database** | `neondb` (or your DB name) |
-| **User** | the user from the URL |
-| **Password** | the password from the URL |
-| **TLS/SSL Mode** | **require** |
-| **PostgreSQL version** | 15+ |
+## 1. Create the datasource
+1. Create a **new Neon database** for the workout data (kept separate from riftbound).
+   Run the loader against it (see the main [README](../README.md)).
+2. In Grafana → **Connections → Data sources → Add data source → PostgreSQL**, fill in the
+   Neon host/db/user/password, **TLS/SSL Mode = require** (Neon requires TLS), **Save & test**.
+3. Copy the datasource's **UID**: open the datasource and take it from the browser URL
+   (`/connections/datasources/edit/<UID>`), or from its settings.
 
-> Neon requires TLS. If Grafana can't connect, make sure **SSL Mode = require** (not
-> disable) and that you're using the *pooled* or *direct* host consistently.
+## 2. Point the dashboard at it
+The dashboard ships with the placeholder `REPLACE_WITH_DS_UID` (31 occurrences: every panel
+query, the annotation query, and the `$exercise` variable). Replace them all with your UID:
 
-Leave "With CA cert" off — `require` verifies transport encryption without a custom CA.
+```bash
+# from the repo root, on macOS:
+sed -i '' 's/REPLACE_WITH_DS_UID/YOUR_DS_UID_HERE/g' dashboards/workout-insights.json
+```
+(On Linux/Git-Bash drop the `''`: `sed -i 's/.../g' ...`.)
 
-Click **Save & test** → you should see *"Database Connection OK"*.
+## 3. Commit → sync
+```bash
+git add dashboards/workout-insights.json
+git commit -m "Point workout dashboard at its Neon datasource"
+git push
+```
+Grafana Git Sync picks it up and the **Workout Analytics** dashboard appears in the same
+folder as riftbound. It has 6 collapsible rows (Overview, Consistency, Volume & Endurance,
+Strength & All-Time Highs, Bodyweight-Relative Strength, Balance).
 
-## 2. Import the dashboard
-Grafana → **Dashboards → New → Import** → upload `grafana/dashboard.json` (or paste it).
-When prompted for **DS_POSTGRES**, pick the PostgreSQL data source you just created, then
-**Import**.
-
-Because the dashboard uses a `${DS_POSTGRES}` datasource variable, it's fully portable —
-no hard-coded datasource UID.
-
-## 3. Notes
-- The dashboard defaults to the **last 1 year**; widen the time picker for full history
-  (data starts 2023-02-25).
-- Variables at the top: **Exercise** (deep-dive), **Set type** (working / all / warm-up),
-  **Big lifts** (strength-score series). "Working" excludes warm-up sets.
-- Yellow vertical markers are your **workout notes** (from `workout.notes`).
-- All panels read from the `workout.v_*` views created by `sql/002_views.sql`, so if you
-  tweak a metric you usually only edit a view, not every panel.
+## Notes
+- **Variables**: `$exercise` (deep-dive), `$set_type` (working / all / warm-up, default
+  working), `$bodyweight_lift` (strength-score series). These use the Grafana v2 variable
+  schema. If a variable ever misbehaves after a Grafana upgrade, the quickest fix is to open
+  the dashboard settings → Variables in the UI, confirm/re-save, and commit the exported
+  result back — the panel/layout structure is a byte-for-byte match of riftbound's, so only
+  the variables are novel here.
+- **Annotations**: your `workout.notes` render as yellow vertical markers.
+- Default time range is the **last 1 year**; widen it for full history (data starts
+  2023-02-25).
+- If you'd rather **reuse riftbound's Neon DB** instead of a separate one, load the `workout`
+  schema into that database and use riftbound's datasource UID (`cftjb82cb5tkwf`) in step 2.
