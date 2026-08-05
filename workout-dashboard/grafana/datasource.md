@@ -46,5 +46,5 @@ Strength & All-Time Highs, Bodyweight-Relative Strength, Balance).
 - **Annotations**: your `workout.notes` render as yellow vertical markers.
 - Default time range is the **last 1 year**; widen it for full history (data starts
   2023-02-25).
-- If you'd rather **reuse riftbound's Neon DB** instead of a separate one, load the `workout`
-  schema into that database and use riftbound's datasource UID (`cftjb82cb5tkwf`) in step 2.
+- This dashboard is fully independent: its own Neon database, its own datasource, its own
+  `workout` schema. It shares nothing with any other dashboard.
