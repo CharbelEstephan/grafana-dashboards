@@ -5,6 +5,26 @@
 -- =====================================================================
 
 -- ---------------------------------------------------------------------
+-- v_muscle_area : maps the specific muscle_group to a general training
+-- area (Legs / Chest / Back / Shoulders / Arms / Core). The dashboard's
+-- top filter uses the area; the second filter uses the specific muscle.
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_muscle_area AS
+SELECT DISTINCT
+    muscle_group,
+    CASE
+        WHEN muscle_group IN ('quads','hamstrings','calves','glutes') THEN 'Legs'
+        WHEN muscle_group =  'chest'                                   THEN 'Chest'
+        WHEN muscle_group IN ('back','traps')                          THEN 'Back'
+        WHEN muscle_group IN ('shoulders','rear delts')               THEN 'Shoulders'
+        WHEN muscle_group IN ('biceps','triceps','forearms')          THEN 'Arms'
+        WHEN muscle_group =  'abs'                                     THEN 'Core'
+        ELSE 'Other'
+    END AS muscle_area
+FROM workout.exercises
+WHERE muscle_group IS NOT NULL;
+
+-- ---------------------------------------------------------------------
 -- v_sets : the workhorse. Every set with its log/exercise/muscle context.
 -- `is_working` = TRUE for everything except warm-up sets.
 -- Use `workout_date` for daily/weekly buckets, `set_time` for fine ts.
@@ -17,6 +37,7 @@ SELECT
     el.eid,
     e.canonical_name,
     e.muscle_group,
+    COALESCE(ma.muscle_area, 'Other') AS muscle_area,
     e.movement,
     e.is_compound,
     el.workout_date,
@@ -31,7 +52,8 @@ SELECT
     s.source
 FROM workout.sets s
 JOIN workout.exercise_logs el ON el.id = s.exercise_log_id
-JOIN workout.exercises      e  ON e.eid = el.eid;
+JOIN workout.exercises      e  ON e.eid = el.eid
+LEFT JOIN workout.v_muscle_area ma ON ma.muscle_group = e.muscle_group;
 
 -- ---------------------------------------------------------------------
 -- v_daily_exercise : per (eid, day) best working-set 1RM & heaviest set.
@@ -243,7 +265,7 @@ JOIN LATERAL (
 -- (weight lifted / nearest-date bodyweight). Basis for custom strength score.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW workout.v_sets_rel AS
-SELECT s.eid, s.canonical_name, s.muscle_group, s.movement,
+SELECT s.eid, s.canonical_name, s.muscle_group, s.muscle_area, s.movement,
        s.workout_date, s.set_time, s.weight_lbs, s.reps, s.set_type,
        s.is_working, s.volume, s.est_1rm,
        db.bodyweight_lbs,
@@ -262,11 +284,12 @@ SELECT
     date_trunc('week', workout_date)::date AS week,
     eid, canonical_name,
     COALESCE(muscle_group, 'Other') AS muscle_group,
+    COALESCE(muscle_area, 'Other')  AS muscle_area,
     COALESCE(movement, 'other')     AS movement,
     ROUND(max(rel_weight) FILTER (WHERE is_working), 3) AS heaviest_score,
     ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) AS avg_score
 FROM workout.v_sets_rel
-GROUP BY 1, 2, 3, 4, 5;
+GROUP BY 1, 2, 3, 4, 5, 6;
 
 -- ---------------------------------------------------------------------
 -- v_muscle_rel_strength_week : same custom score aggregated per muscle
@@ -289,13 +312,14 @@ CREATE OR REPLACE VIEW workout.v_strength_curve AS
 SELECT
     eid, canonical_name,
     COALESCE(muscle_group, 'Other') AS muscle_group,
+    COALESCE(muscle_area, 'Other')  AS muscle_area,
     COALESCE(movement, 'other')     AS movement,
     reps,
     max(weight_lbs) AS max_weight,
     count(*)        AS times_done
 FROM workout.v_sets
 WHERE is_working AND reps BETWEEN 1 AND 20
-GROUP BY eid, canonical_name, muscle_group, movement, reps;
+GROUP BY eid, canonical_name, muscle_group, muscle_area, movement, reps;
 
 -- ---------------------------------------------------------------------
 -- v_current_streak : consecutive-weeks-with-a-workout streak ending now.

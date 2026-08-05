@@ -37,11 +37,13 @@ It has 5 collapsible rows: **Overview**, **Deep Dive** (filter-driven), **By Mus
 **Consistency**, **Bodyweight**.
 
 ## Notes
-- **Variables** (top of the dashboard): `$muscle_group`, `$movement` (push/pull/legs/core),
-  `$exercise` (chained — narrows to the chosen muscle group/movement), `$set_type`
-  (working / all / warm-up, default working), and `$score_basis` (heaviest vs average) which
-  toggles the custom Strength Score. Pick a muscle group or exercise to make the Deep Dive
-  panels readable — by default they show everything.
+- **Variables** (top of the dashboard) form a drill-down, all defaulting to **None** so the
+  Deep Dive starts empty (not hectic): `$area` (general group — Legs / Chest / Back /
+  Shoulders / Arms / Core), `$muscle` (specific muscle, chained to the area — e.g. Legs →
+  quads/hamstrings/calves/glutes), `$exercise` (chained to both). Plus `$set_type`
+  (working / all / warm-up, default working) and `$score_basis` (heaviest vs average) which
+  toggles the custom Strength Score. Pick an area, then optionally a muscle, then an exercise
+  to drill in — panels fill in as you narrow.
 - **Custom Strength Score** = pounds lifted ÷ nearest-date bodyweight, plotted over time.
   `heaviest` uses your top working set; `average` uses the mean working-set load (smoother).
   Rising while bodyweight falls = getting relatively stronger.
