@@ -1188,7 +1188,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT reps::text AS \"reps\", canonical_name AS metric, max_weight AS \"max weight (lb)\" FROM workout.v_strength_curve WHERE 1=1 AND ('${muscle_group}' = 'All' OR muscle_group = '${muscle_group}') AND ('${movement}' = 'All' OR movement = '${movement}') AND ('${exercise}' = 'All' OR canonical_name = '${exercise}') ORDER BY canonical_name, reps",
+                        "rawSql": "SELECT lpad(reps::text, 2, '0') AS \"reps\", canonical_name AS metric, max_weight AS \"max weight (lb)\" FROM workout.v_strength_curve WHERE 1=1 AND ('${muscle_group}' = 'All' OR muscle_group = '${muscle_group}') AND ('${movement}' = 'All' OR movement = '${movement}') AND ('${exercise}' = 'All' OR canonical_name = '${exercise}') ORDER BY reps",
                         "sql": {
                           "columns": [
                             {
