@@ -4,6 +4,17 @@
 -- Panels should query these views so their SQL stays short.
 -- =====================================================================
 
+-- Drop views first (CASCADE) so column additions/reorders never collide with
+-- CREATE OR REPLACE's append-only rule. Views are cheap and rebuilt below.
+-- Dropping the roots CASCADEs to everything derived from them.
+DROP VIEW IF EXISTS workout.v_muscle_area   CASCADE;
+DROP VIEW IF EXISTS workout.v_sets          CASCADE;
+DROP VIEW IF EXISTS workout.v_date_bodyweight CASCADE;
+DROP VIEW IF EXISTS workout.v_bodyweight    CASCADE;
+DROP VIEW IF EXISTS workout.v_consistency_week  CASCADE;
+DROP VIEW IF EXISTS workout.v_consistency_month CASCADE;
+DROP VIEW IF EXISTS workout.v_current_streak CASCADE;
+
 -- ---------------------------------------------------------------------
 -- v_muscle_area : maps the specific muscle_group to a general training
 -- area (Legs / Chest / Back / Shoulders / Arms / Core). The dashboard's
