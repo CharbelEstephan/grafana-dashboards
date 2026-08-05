@@ -225,6 +225,79 @@ SELECT
     (SELECT COUNT(DISTINCT eid) FROM workout.exercise_logs)             AS distinct_exercises;
 
 -- ---------------------------------------------------------------------
+-- v_date_bodyweight : nearest-date bodyweight for every workout date.
+-- (LATERAL closest-date join, computed once over distinct workout dates.)
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_date_bodyweight AS
+SELECT d.workout_date, bw.weight_lbs AS bodyweight_lbs
+FROM (SELECT DISTINCT workout_date FROM workout.exercise_logs) d
+JOIN LATERAL (
+    SELECT weight_lbs FROM workout.bodyweight b
+    WHERE b.weight_lbs IS NOT NULL
+    ORDER BY abs(b.mydate - d.workout_date)
+    LIMIT 1
+) bw ON TRUE;
+
+-- ---------------------------------------------------------------------
+-- v_sets_rel : every set with its bodyweight-relative load
+-- (weight lifted / nearest-date bodyweight). Basis for custom strength score.
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_sets_rel AS
+SELECT s.eid, s.canonical_name, s.muscle_group, s.movement,
+       s.workout_date, s.set_time, s.weight_lbs, s.reps, s.set_type,
+       s.is_working, s.volume, s.est_1rm,
+       db.bodyweight_lbs,
+       s.weight_lbs / NULLIF(db.bodyweight_lbs, 0) AS rel_weight
+FROM workout.v_sets s
+JOIN workout.v_date_bodyweight db ON db.workout_date = s.workout_date;
+
+-- ---------------------------------------------------------------------
+-- v_rel_strength_week : custom Strength Score over time, per exercise.
+-- Two switchable bases (working sets only):
+--   heaviest_score = max(weight/bodyweight)  -> raw top-end strength
+--   avg_score      = avg(weight/bodyweight)  -> smoother working strength
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_rel_strength_week AS
+SELECT
+    date_trunc('week', workout_date)::date AS week,
+    eid, canonical_name,
+    COALESCE(muscle_group, 'Other') AS muscle_group,
+    COALESCE(movement, 'other')     AS movement,
+    ROUND(max(rel_weight) FILTER (WHERE is_working), 3) AS heaviest_score,
+    ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) AS avg_score
+FROM workout.v_sets_rel
+GROUP BY 1, 2, 3, 4, 5;
+
+-- ---------------------------------------------------------------------
+-- v_muscle_rel_strength_week : same custom score aggregated per muscle
+-- group (for the by-muscle-group overview section).
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_muscle_rel_strength_week AS
+SELECT
+    date_trunc('week', workout_date)::date AS week,
+    COALESCE(muscle_group, 'Other') AS muscle_group,
+    ROUND(max(rel_weight) FILTER (WHERE is_working), 3) AS heaviest_score,
+    ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) AS avg_score
+FROM workout.v_sets_rel
+GROUP BY 1, 2;
+
+-- ---------------------------------------------------------------------
+-- v_strength_curve : per exercise, the heaviest working weight achieved
+-- at each rep count (1..20). The load drop-off curve for planning.
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_strength_curve AS
+SELECT
+    eid, canonical_name,
+    COALESCE(muscle_group, 'Other') AS muscle_group,
+    COALESCE(movement, 'other')     AS movement,
+    reps,
+    max(weight_lbs) AS max_weight,
+    count(*)        AS times_done
+FROM workout.v_sets
+WHERE is_working AND reps BETWEEN 1 AND 20
+GROUP BY eid, canonical_name, muscle_group, movement, reps;
+
+-- ---------------------------------------------------------------------
 -- v_current_streak : consecutive-weeks-with-a-workout streak ending now.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW workout.v_current_streak AS

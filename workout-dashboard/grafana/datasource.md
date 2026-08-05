@@ -32,17 +32,24 @@ git add dashboards/workout-insights.json
 git commit -m "Point workout dashboard at its Neon datasource"
 git push
 ```
-Grafana Git Sync picks it up and the **Workout Analytics** dashboard appears in the same
-folder as riftbound. It has 6 collapsible rows (Overview, Consistency, Volume & Endurance,
-Strength & All-Time Highs, Bodyweight-Relative Strength, Balance).
+Grafana Git Sync picks it up and the **Workout Analytics** dashboard appears in its folder.
+It has 5 collapsible rows: **Overview**, **Deep Dive** (filter-driven), **By Muscle Group**,
+**Consistency**, **Bodyweight**.
 
 ## Notes
-- **Variables**: `$exercise` (deep-dive), `$set_type` (working / all / warm-up, default
-  working), `$bodyweight_lift` (strength-score series). These use the Grafana v2 variable
-  schema. If a variable ever misbehaves after a Grafana upgrade, the quickest fix is to open
-  the dashboard settings → Variables in the UI, confirm/re-save, and commit the exported
-  result back — the panel/layout structure is a byte-for-byte match of riftbound's, so only
-  the variables are novel here.
+- **Variables** (top of the dashboard): `$muscle_group`, `$movement` (push/pull/legs/core),
+  `$exercise` (chained — narrows to the chosen muscle group/movement), `$set_type`
+  (working / all / warm-up, default working), and `$score_basis` (heaviest vs average) which
+  toggles the custom Strength Score. Pick a muscle group or exercise to make the Deep Dive
+  panels readable — by default they show everything.
+- **Custom Strength Score** = pounds lifted ÷ nearest-date bodyweight, plotted over time.
+  `heaviest` uses your top working set; `average` uses the mean working-set load (smoother).
+  Rising while bodyweight falls = getting relatively stronger.
+- **Strength Curve** = heaviest weight at each rep count; pick one exercise for a clean
+  drop-off curve to plan working weights.
+- These use the Grafana v2 variable schema. If a variable ever misbehaves after a Grafana
+  upgrade, open dashboard settings → Variables in the UI, re-save, and commit the export —
+  the panel/layout structure matches riftbound's, so only the variables are novel.
 - **Annotations**: your `workout.notes` render as yellow vertical markers.
 - Default time range is the **last 1 year**; widen it for full history (data starts
   2023-02-25).
