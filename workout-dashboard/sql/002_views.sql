@@ -26,8 +26,8 @@ SELECT DISTINCT
     CASE
         WHEN muscle_group IN ('quads','hamstrings','calves','glutes') THEN 'Legs'
         WHEN muscle_group =  'chest'                                   THEN 'Chest'
-        WHEN muscle_group IN ('back','traps')                          THEN 'Back'
-        WHEN muscle_group IN ('shoulders','rear delts')               THEN 'Shoulders'
+        WHEN muscle_group IN ('back','rear delts')                     THEN 'Back'
+        WHEN muscle_group IN ('shoulders','traps')                     THEN 'Shoulders'
         WHEN muscle_group IN ('biceps','triceps','forearms')          THEN 'Arms'
         WHEN muscle_group =  'abs'                                     THEN 'Core'
         ELSE 'Other'
