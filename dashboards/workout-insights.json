@@ -619,7 +619,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT week AS time, canonical_name AS metric, CASE WHEN '${score_basis}' = 'heaviest' THEN heaviest_score ELSE avg_score END AS score FROM workout.v_rel_strength_week WHERE $__timeFilter(week) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) ORDER BY 1",
+                        "rawSql": "SELECT week AS time, canonical_name AS metric, CASE WHEN '${score_basis}' = 'heaviest' THEN heaviest_score ELSE avg_score END AS score FROM workout.v_rel_strength_week WHERE $__timeFilter(week) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -639,10 +639,10 @@
               "transformations": []
             }
           },
-          "description": "Pounds lifted per pound of bodyweight, over time. Toggle heaviest-set vs average-set with Score basis. Pick a muscle group / muscle / exercise above to populate.",
+          "description": "Pounds lifted per pound of bodyweight for Bench / Squat / Deadlift / Shoulder Press. No filter needed \u2014 always shows the big lifts.",
           "id": 7,
           "links": [],
-          "title": "Strength Score over time  \u2014  ${score_basis} lifted \u00f7 bodyweight",
+          "title": "Strength Score over time \u2014 Big Lifts  (${score_basis} lifted \u00f7 bodyweight)",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -746,7 +746,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(est_1rm)::numeric(10,1) AS est_1rm FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(est_1rm)::numeric(10,1) AS est_1rm FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') GROUP BY workout_date, canonical_name ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -766,10 +766,10 @@
               "transformations": []
             }
           },
-          "description": "Best working-set Epley 1RM per day (weight x (1 + reps/30)), computed from your sets.",
+          "description": "",
           "id": 8,
           "links": [],
-          "title": "Estimated 1RM over time",
+          "title": "Estimated 1RM over time \u2014 Big Lifts",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -873,7 +873,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE $__timeFilter(workout_date) AND (\n  '${set_type}' = 'all'\n  OR ('${set_type}' = 'working' AND set_type <> 'warm-up')\n  OR ('${set_type}' = 'warm-up' AND set_type = 'warm-up')\n) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') GROUP BY workout_date, canonical_name ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -896,7 +896,7 @@
           "description": "",
           "id": 9,
           "links": [],
-          "title": "Heaviest Set Weight over time",
+          "title": "Heaviest Set over time \u2014 Big Lifts",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -998,6 +998,387 @@
                       "version": "v0",
                       "spec": {
                         "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT week AS time, canonical_name AS metric, CASE WHEN '${score_basis}' = 'heaviest' THEN heaviest_score ELSE avg_score END AS score FROM workout.v_rel_strength_week WHERE $__timeFilter(week) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Pounds lifted per pound of bodyweight, over time. Toggle heaviest-set vs average-set with Score basis. Pick a muscle group / muscle / exercise above to populate.",
+          "id": 10,
+          "links": [],
+          "title": "Strength Score over time  \u2014  ${score_basis} lifted \u00f7 bodyweight",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 6,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "always",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "decimals": 3
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(est_1rm)::numeric(10,1) AS est_1rm FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Best working-set Epley 1RM per day (weight x (1 + reps/30)), computed from your sets.",
+          "id": 11,
+          "links": [],
+          "title": "Estimated 1RM over time",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-12": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE $__timeFilter(workout_date) AND (\n  '${set_type}' = 'all'\n  OR ('${set_type}' = 'working' AND set_type <> 'warm-up')\n  OR ('${set_type}' = 'warm-up' AND set_type = 'warm-up')\n) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 12,
+          "links": [],
+          "title": "Heaviest Set Weight over time",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-13": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
                         "rawSql": "SELECT lpad(reps::text, 2, '0') AS \"reps\", canonical_name AS metric, max_weight AS \"max weight (lb)\" FROM workout.v_strength_curve WHERE 1=1 AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) ORDER BY reps",
@@ -1021,7 +1402,7 @@
             }
           },
           "description": "For each rep count, the heaviest you've lifted. Pick a single exercise for a clean drop-off curve to plan working weights.",
-          "id": 10,
+          "id": 13,
           "links": [],
           "title": "Strength Curve \u2014 heaviest weight at each rep count",
           "vizConfig": {
@@ -1097,7 +1478,7 @@
           }
         }
       },
-      "panel-11": {
+      "panel-14": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1141,7 +1522,7 @@
             }
           },
           "description": "",
-          "id": 11,
+          "id": 14,
           "links": [],
           "title": "Weekly Volume",
           "vizConfig": {
@@ -1224,7 +1605,7 @@
           }
         }
       },
-      "panel-12": {
+      "panel-15": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1268,7 +1649,7 @@
             }
           },
           "description": "",
-          "id": 12,
+          "id": 15,
           "links": [],
           "title": "Rep PRs \u2014 max weight at each rep count",
           "vizConfig": {
@@ -1309,7 +1690,7 @@
           }
         }
       },
-      "panel-13": {
+      "panel-16": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1353,7 +1734,7 @@
             }
           },
           "description": "",
-          "id": 13,
+          "id": 16,
           "links": [],
           "title": "Volume by Muscle Group",
           "vizConfig": {
@@ -1429,7 +1810,7 @@
           }
         }
       },
-      "panel-14": {
+      "panel-17": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1473,7 +1854,7 @@
             }
           },
           "description": "",
-          "id": 14,
+          "id": 17,
           "links": [],
           "title": "Best Strength Score by Muscle Group (heaviest \u00f7 bodyweight)",
           "vizConfig": {
@@ -1548,7 +1929,7 @@
           }
         }
       },
-      "panel-15": {
+      "panel-18": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1592,7 +1973,7 @@
             }
           },
           "description": "",
-          "id": 15,
+          "id": 18,
           "links": [],
           "title": "Volume Split by Muscle Group",
           "vizConfig": {
@@ -1646,7 +2027,7 @@
           }
         }
       },
-      "panel-16": {
+      "panel-19": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1690,7 +2071,7 @@
             }
           },
           "description": "",
-          "id": 16,
+          "id": 19,
           "links": [],
           "title": "Volume Trend by Muscle Group (stacked)",
           "vizConfig": {
@@ -1773,7 +2154,7 @@
           }
         }
       },
-      "panel-17": {
+      "panel-20": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1817,7 +2198,7 @@
             }
           },
           "description": "",
-          "id": 17,
+          "id": 20,
           "links": [],
           "title": "Top 15 Exercises by Lifetime Volume",
           "vizConfig": {
@@ -1893,7 +2274,7 @@
           }
         }
       },
-      "panel-18": {
+      "panel-21": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1937,7 +2318,7 @@
             }
           },
           "description": "",
-          "id": 18,
+          "id": 21,
           "links": [],
           "title": "Workouts per Week",
           "vizConfig": {
@@ -1960,385 +2341,6 @@
                     "barWidthFactor": 0.6,
                     "drawStyle": "bars",
                     "fillOpacity": 80,
-                    "gradientMode": "opacity",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": true,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "#4C4FE0",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "enableFacetedFilter": false,
-                  "overflow": "ellipsis",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            }
-          }
-        }
-      },
-      "panel-19": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "time_series",
-                        "rawQuery": true,
-                        "rawSql": "SELECT period AS time, workouts AS \"workouts/mo\" FROM workout.v_consistency_month WHERE $__timeFilter(period) ORDER BY 1",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 19,
-          "links": [],
-          "title": "Workouts per Month",
-          "vizConfig": {
-            "group": "timeseries",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "bars",
-                    "fillOpacity": 80,
-                    "gradientMode": "opacity",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": true,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "#4C4FE0",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "enableFacetedFilter": false,
-                  "overflow": "ellipsis",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            }
-          }
-        }
-      },
-      "panel-20": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "time_series",
-                        "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', starttime)::date AS time, avg(workout_minutes) AS \"avg min\" FROM workout.sessions WHERE starttime IS NOT NULL AND $__timeFilter(starttime) GROUP BY 1 ORDER BY 1",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 20,
-          "links": [],
-          "title": "Avg Session Duration (min)",
-          "vizConfig": {
-            "group": "timeseries",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 10,
-                    "gradientMode": "opacity",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": true,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "#4C4FE0",
-                        "value": 0
-                      }
-                    ]
-                  },
-                  "unit": "m"
-                },
-                "overrides": []
-              },
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "enableFacetedFilter": false,
-                  "overflow": "ellipsis",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            }
-          }
-        }
-      },
-      "panel-21": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "time_series",
-                        "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', s.starttime)::date AS time, avg(ss.total_sets) AS \"sets/workout\" FROM workout.v_session_stats ss JOIN workout.sessions s ON s.id = ss.session_id WHERE s.starttime IS NOT NULL AND $__timeFilter(s.starttime) GROUP BY 1 ORDER BY 1",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 21,
-          "links": [],
-          "title": "Sets per Workout (weekly avg)",
-          "vizConfig": {
-            "group": "timeseries",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 10,
                     "gradientMode": "opacity",
                     "hideFrom": {
                       "legend": false,
@@ -2421,7 +2423,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT mydate AS time, weight_lbs AS \"bodyweight (lb)\", fat_pct AS \"fat %\" FROM workout.v_bodyweight WHERE $__timeFilter(mydate) ORDER BY 1",
+                        "rawSql": "SELECT period AS time, workouts AS \"workouts/mo\" FROM workout.v_consistency_month WHERE $__timeFilter(period) ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -2443,6 +2445,385 @@
           },
           "description": "",
           "id": 22,
+          "links": [],
+          "title": "Workouts per Month",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "bars",
+                    "fillOpacity": 80,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT date_trunc('week', starttime)::date AS time, avg(workout_minutes) AS \"avg min\" FROM workout.sessions WHERE starttime IS NOT NULL AND $__timeFilter(starttime) GROUP BY 1 ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 23,
+          "links": [],
+          "title": "Avg Session Duration (min)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "m"
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT date_trunc('week', s.starttime)::date AS time, avg(ss.total_sets) AS \"sets/workout\" FROM workout.v_session_stats ss JOIN workout.sessions s ON s.id = ss.session_id WHERE s.starttime IS NOT NULL AND $__timeFilter(s.starttime) GROUP BY 1 ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 24,
+          "links": [],
+          "title": "Sets per Workout (weekly avg)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT mydate AS time, weight_lbs AS \"bodyweight (lb)\", fat_pct AS \"fat %\" FROM workout.v_bodyweight WHERE $__timeFilter(mydate) ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 25,
           "links": [],
           "title": "Bodyweight over time (with fat %)",
           "vizConfig": {
@@ -2525,7 +2906,7 @@
           }
         }
       },
-      "panel-23": {
+      "panel-26": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2569,7 +2950,7 @@
             }
           },
           "description": "",
-          "id": 23,
+          "id": 26,
           "links": [],
           "title": "Body Measurements over time (in)",
           "vizConfig": {
@@ -2766,8 +3147,8 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
-              "title": "Deep Dive \u2014 pick a muscle group / muscle / exercise above",
+              "collapse": false,
+              "title": "Big Lifts \u2014 progression",
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -2810,13 +3191,66 @@
                         "width": 12,
                         "height": 9
                       }
-                    },
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": true,
+              "title": "Deep Dive \u2014 pick a muscle group / muscle / exercise above",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
                     {
                       "kind": "GridLayoutItem",
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-10"
+                        },
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "x": 0,
+                        "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        },
+                        "x": 12,
+                        "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-13"
                         },
                         "x": 0,
                         "y": 18,
@@ -2829,7 +3263,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-11"
+                          "name": "panel-14"
                         },
                         "x": 12,
                         "y": 18,
@@ -2842,7 +3276,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-12"
+                          "name": "panel-15"
                         },
                         "x": 0,
                         "y": 27,
@@ -2869,7 +3303,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-13"
+                          "name": "panel-16"
                         },
                         "x": 0,
                         "y": 0,
@@ -2882,7 +3316,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-14"
+                          "name": "panel-17"
                         },
                         "x": 12,
                         "y": 0,
@@ -2895,7 +3329,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-15"
+                          "name": "panel-18"
                         },
                         "x": 0,
                         "y": 9,
@@ -2908,7 +3342,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-16"
+                          "name": "panel-19"
                         },
                         "x": 8,
                         "y": 9,
@@ -2921,7 +3355,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-17"
+                          "name": "panel-20"
                         },
                         "x": 0,
                         "y": 18,
@@ -2948,7 +3382,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-18"
+                          "name": "panel-21"
                         },
                         "x": 0,
                         "y": 0,
@@ -2961,7 +3395,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-19"
+                          "name": "panel-22"
                         },
                         "x": 12,
                         "y": 0,
@@ -2974,7 +3408,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-20"
+                          "name": "panel-23"
                         },
                         "x": 0,
                         "y": 8,
@@ -2987,7 +3421,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-21"
+                          "name": "panel-24"
                         },
                         "x": 12,
                         "y": 8,
@@ -3014,7 +3448,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-22"
+                          "name": "panel-25"
                         },
                         "x": 0,
                         "y": 0,
@@ -3027,7 +3461,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-23"
+                          "name": "panel-26"
                         },
                         "x": 12,
                         "y": 0,

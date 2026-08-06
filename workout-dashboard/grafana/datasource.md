@@ -43,11 +43,18 @@ It has 5 collapsible rows: **Overview**, **Deep Dive** (filter-driven), **By Mus
   plus `$set_type` (working / all / warm-up, default working) and `$score_basis` (heaviest vs
   average) which toggles the custom Strength Score. Filter precedence is exercise > muscle >
   area, so pick whichever level you want.
-- All variables are **custom (static) lists**, not datasource queries — this is deliberate so
-  the dropdowns work on **public / externally-shared dashboards** (anonymous viewers can't run
-  variable queries). Trade-off: the `$muscle` and `$exercise` lists are the full sets (13 and
-  ~122, both searchable) and don't auto-narrow to the selected area. **If you add new
-  exercises, re-generate these lists** (they're baked into `workout-insights.json`).
+- All variables are **custom (static) lists**, not datasource queries. Trade-off: the
+  `$muscle` and `$exercise` lists are the full sets (13 and ~122, both searchable) and don't
+  auto-narrow to the selected area. **If you add new exercises, re-generate these lists**
+  (they're baked into `workout-insights.json`).
+- **Public / externally-shared dashboards** do **not** render the template-variable bar
+  (Grafana limitation — [issue #67346](https://github.com/grafana/grafana/issues/67346), not
+  shipped). So on a public link the filter-driven **Deep Dive** row shows "No data" (filters
+  stay at their None default and viewers can't change them). Everything else is filter-free
+  and shows on public: Overview, 1RM Grid, **Big Lifts — progression** (always-on big-four
+  trends added specifically for the public view), By Muscle Group, Consistency, Bodyweight.
+  For a fully interactive experience, give external people Grafana **Viewer logins** instead
+  of a public link.
 - **Custom Strength Score** = pounds lifted ÷ nearest-date bodyweight, plotted over time.
   `heaviest` uses your top working set; `average` uses the mean working-set load (smoother).
   Rising while bodyweight falls = getting relatively stronger.
