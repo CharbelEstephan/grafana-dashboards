@@ -619,7 +619,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT week AS time, canonical_name AS metric, CASE WHEN '${score_basis}' = 'heaviest' THEN heaviest_score ELSE avg_score END AS score FROM workout.v_rel_strength_week WHERE $__timeFilter(week) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Bench Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -639,10 +639,10 @@
               "transformations": []
             }
           },
-          "description": "Pounds lifted per pound of bodyweight for Bench / Squat / Deadlift / Shoulder Press. No filter needed \u2014 always shows the big lifts.",
+          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
           "id": 7,
           "links": [],
-          "title": "Strength Score over time \u2014 Big Lifts  (${score_basis} lifted \u00f7 bodyweight)",
+          "title": "Barbell Bench Press \u2014 Strength Score (left) vs Heaviest Set (right)",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -662,7 +662,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
-                    "fillOpacity": 10,
+                    "fillOpacity": 8,
                     "gradientMode": "opacity",
                     "hideFrom": {
                       "legend": false,
@@ -695,10 +695,56 @@
                         "value": 0
                       }
                     ]
-                  },
-                  "decimals": 3
+                  }
                 },
-                "overrides": []
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Heaviest set (lb)"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      },
+                      {
+                        "id": "unit",
+                        "value": "short"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D9A441"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Strength score"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "left"
+                      },
+                      {
+                        "id": "decimals",
+                        "value": 3
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#4C8CFF"
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               "options": {
                 "annotations": {
@@ -746,7 +792,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(est_1rm)::numeric(10,1) AS est_1rm FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Squat' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -766,10 +812,10 @@
               "transformations": []
             }
           },
-          "description": "",
+          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
           "id": 8,
           "links": [],
-          "title": "Estimated 1RM over time \u2014 Big Lifts",
+          "title": "Barbell Squat \u2014 Strength Score (left) vs Heaviest Set (right)",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -789,7 +835,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
-                    "fillOpacity": 10,
+                    "fillOpacity": 8,
                     "gradientMode": "opacity",
                     "hideFrom": {
                       "legend": false,
@@ -799,11 +845,11 @@
                     "insertNulls": false,
                     "lineInterpolation": "smooth",
                     "lineWidth": 2,
-                    "pointSize": 5,
+                    "pointSize": 6,
                     "scaleDistribution": {
                       "type": "linear"
                     },
-                    "showPoints": "auto",
+                    "showPoints": "always",
                     "showValues": false,
                     "spanNulls": true,
                     "stacking": {
@@ -822,10 +868,56 @@
                         "value": 0
                       }
                     ]
-                  },
-                  "unit": "short"
+                  }
                 },
-                "overrides": []
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Heaviest set (lb)"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      },
+                      {
+                        "id": "unit",
+                        "value": "short"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D9A441"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Strength score"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "left"
+                      },
+                      {
+                        "id": "decimals",
+                        "value": 3
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#4C8CFF"
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               "options": {
                 "annotations": {
@@ -873,7 +965,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE is_working AND $__timeFilter(workout_date) AND canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Deadlift' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -893,10 +985,10 @@
               "transformations": []
             }
           },
-          "description": "",
+          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
           "id": 9,
           "links": [],
-          "title": "Heaviest Set over time \u2014 Big Lifts",
+          "title": "Barbell Deadlift \u2014 Strength Score (left) vs Heaviest Set (right)",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -916,7 +1008,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
-                    "fillOpacity": 10,
+                    "fillOpacity": 8,
                     "gradientMode": "opacity",
                     "hideFrom": {
                       "legend": false,
@@ -926,11 +1018,11 @@
                     "insertNulls": false,
                     "lineInterpolation": "smooth",
                     "lineWidth": 2,
-                    "pointSize": 5,
+                    "pointSize": 6,
                     "scaleDistribution": {
                       "type": "linear"
                     },
-                    "showPoints": "auto",
+                    "showPoints": "always",
                     "showValues": false,
                     "spanNulls": true,
                     "stacking": {
@@ -949,10 +1041,56 @@
                         "value": 0
                       }
                     ]
-                  },
-                  "unit": "short"
+                  }
                 },
-                "overrides": []
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Heaviest set (lb)"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      },
+                      {
+                        "id": "unit",
+                        "value": "short"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D9A441"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Strength score"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "left"
+                      },
+                      {
+                        "id": "decimals",
+                        "value": 3
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#4C8CFF"
+                        }
+                      }
+                    ]
+                  }
+                ]
               },
               "options": {
                 "annotations": {
@@ -1000,6 +1138,179 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Shoulder Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
+          "id": 10,
+          "links": [],
+          "title": "Barbell Shoulder Press \u2014 Strength Score (left) vs Heaviest Set (right)",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 8,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 6,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "always",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": [
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Heaviest set (lb)"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "right"
+                      },
+                      {
+                        "id": "unit",
+                        "value": "short"
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#D9A441"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "matcher": {
+                      "id": "byName",
+                      "options": "Strength score"
+                    },
+                    "properties": [
+                      {
+                        "id": "custom.axisPlacement",
+                        "value": "left"
+                      },
+                      {
+                        "id": "decimals",
+                        "value": 3
+                      },
+                      {
+                        "id": "color",
+                        "value": {
+                          "mode": "fixed",
+                          "fixedColor": "#4C8CFF"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-11": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
                         "rawSql": "SELECT week AS time, canonical_name AS metric, CASE WHEN '${score_basis}' = 'heaviest' THEN heaviest_score ELSE avg_score END AS score FROM workout.v_rel_strength_week WHERE $__timeFilter(week) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) ORDER BY 1",
                         "sql": {
                           "columns": [
@@ -1021,7 +1332,7 @@
             }
           },
           "description": "Pounds lifted per pound of bodyweight, over time. Toggle heaviest-set vs average-set with Score basis. Pick a muscle group / muscle / exercise above to populate.",
-          "id": 10,
+          "id": 11,
           "links": [],
           "title": "Strength Score over time  \u2014  ${score_basis} lifted \u00f7 bodyweight",
           "vizConfig": {
@@ -1104,7 +1415,7 @@
           }
         }
       },
-      "panel-11": {
+      "panel-12": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1148,136 +1459,9 @@
             }
           },
           "description": "Best working-set Epley 1RM per day (weight x (1 + reps/30)), computed from your sets.",
-          "id": 11,
-          "links": [],
-          "title": "Estimated 1RM over time",
-          "vizConfig": {
-            "group": "timeseries",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "line",
-                    "fillOpacity": 10,
-                    "gradientMode": "opacity",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": true,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "#4C4FE0",
-                        "value": 0
-                      }
-                    ]
-                  },
-                  "unit": "short"
-                },
-                "overrides": []
-              },
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "enableFacetedFilter": false,
-                  "overflow": "ellipsis",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            }
-          }
-        }
-      },
-      "panel-12": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "time_series",
-                        "rawQuery": true,
-                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE $__timeFilter(workout_date) AND (\n  '${set_type}' = 'all'\n  OR ('${set_type}' = 'working' AND set_type <> 'warm-up')\n  OR ('${set_type}' = 'warm-up' AND set_type = 'warm-up')\n) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
           "id": 12,
           "links": [],
-          "title": "Heaviest Set Weight over time",
+          "title": "Estimated 1RM over time",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -1379,6 +1563,133 @@
                       "version": "v0",
                       "spec": {
                         "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT workout_date AS time, canonical_name AS metric, max(weight_lbs) AS \"heaviest (lb)\" FROM workout.v_sets WHERE $__timeFilter(workout_date) AND (\n  '${set_type}' = 'all'\n  OR ('${set_type}' = 'working' AND set_type <> 'warm-up')\n  OR ('${set_type}' = 'warm-up' AND set_type = 'warm-up')\n) AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) GROUP BY workout_date, canonical_name ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 13,
+          "links": [],
+          "title": "Heaviest Set Weight over time",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 10,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  },
+                  "unit": "short"
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-14": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
                         "rawSql": "SELECT lpad(reps::text, 2, '0') AS \"reps\", canonical_name AS metric, max_weight AS \"max weight (lb)\" FROM workout.v_strength_curve WHERE 1=1 AND (\n  ('${exercise}' <> 'None' AND canonical_name = '${exercise}')\n  OR ('${exercise}' = 'None' AND '${muscle}' <> 'None' AND muscle_group = '${muscle}')\n  OR ('${exercise}' = 'None' AND '${muscle}' = 'None' AND '${area}' <> 'None' AND muscle_area = '${area}')\n) ORDER BY reps",
@@ -1402,7 +1713,7 @@
             }
           },
           "description": "For each rep count, the heaviest you've lifted. Pick a single exercise for a clean drop-off curve to plan working weights.",
-          "id": 13,
+          "id": 14,
           "links": [],
           "title": "Strength Curve \u2014 heaviest weight at each rep count",
           "vizConfig": {
@@ -1478,7 +1789,7 @@
           }
         }
       },
-      "panel-14": {
+      "panel-15": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1522,7 +1833,7 @@
             }
           },
           "description": "",
-          "id": 14,
+          "id": 15,
           "links": [],
           "title": "Weekly Volume",
           "vizConfig": {
@@ -1605,7 +1916,7 @@
           }
         }
       },
-      "panel-15": {
+      "panel-16": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1649,7 +1960,7 @@
             }
           },
           "description": "",
-          "id": 15,
+          "id": 16,
           "links": [],
           "title": "Rep PRs \u2014 max weight at each rep count",
           "vizConfig": {
@@ -1690,7 +2001,7 @@
           }
         }
       },
-      "panel-16": {
+      "panel-17": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1734,7 +2045,7 @@
             }
           },
           "description": "",
-          "id": 16,
+          "id": 17,
           "links": [],
           "title": "Volume by Muscle Group",
           "vizConfig": {
@@ -1810,7 +2121,7 @@
           }
         }
       },
-      "panel-17": {
+      "panel-18": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1854,7 +2165,7 @@
             }
           },
           "description": "",
-          "id": 17,
+          "id": 18,
           "links": [],
           "title": "Best Strength Score by Muscle Group (heaviest \u00f7 bodyweight)",
           "vizConfig": {
@@ -1929,7 +2240,7 @@
           }
         }
       },
-      "panel-18": {
+      "panel-19": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1973,7 +2284,7 @@
             }
           },
           "description": "",
-          "id": 18,
+          "id": 19,
           "links": [],
           "title": "Volume Split by Muscle Group",
           "vizConfig": {
@@ -2027,7 +2338,7 @@
           }
         }
       },
-      "panel-19": {
+      "panel-20": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2071,7 +2382,7 @@
             }
           },
           "description": "",
-          "id": 19,
+          "id": 20,
           "links": [],
           "title": "Volume Trend by Muscle Group (stacked)",
           "vizConfig": {
@@ -2154,7 +2465,7 @@
           }
         }
       },
-      "panel-20": {
+      "panel-21": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2198,7 +2509,7 @@
             }
           },
           "description": "",
-          "id": 20,
+          "id": 21,
           "links": [],
           "title": "Top 15 Exercises by Lifetime Volume",
           "vizConfig": {
@@ -2274,7 +2585,7 @@
           }
         }
       },
-      "panel-21": {
+      "panel-22": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2318,135 +2629,9 @@
             }
           },
           "description": "",
-          "id": 21,
-          "links": [],
-          "title": "Workouts per Week",
-          "vizConfig": {
-            "group": "timeseries",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "mode": "palette-classic"
-                  },
-                  "custom": {
-                    "axisBorderShow": false,
-                    "axisCenteredZero": false,
-                    "axisColorMode": "text",
-                    "axisLabel": "",
-                    "axisPlacement": "auto",
-                    "barAlignment": 0,
-                    "barWidthFactor": 0.6,
-                    "drawStyle": "bars",
-                    "fillOpacity": 80,
-                    "gradientMode": "opacity",
-                    "hideFrom": {
-                      "legend": false,
-                      "tooltip": false,
-                      "viz": false
-                    },
-                    "insertNulls": false,
-                    "lineInterpolation": "smooth",
-                    "lineWidth": 2,
-                    "pointSize": 5,
-                    "scaleDistribution": {
-                      "type": "linear"
-                    },
-                    "showPoints": "auto",
-                    "showValues": false,
-                    "spanNulls": true,
-                    "stacking": {
-                      "group": "A",
-                      "mode": "none"
-                    },
-                    "thresholdsStyle": {
-                      "mode": "off"
-                    }
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "#4C4FE0",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "annotations": {
-                  "clustering": -1,
-                  "multiLane": false
-                },
-                "legend": {
-                  "calcs": [],
-                  "displayMode": "list",
-                  "enableFacetedFilter": false,
-                  "overflow": "ellipsis",
-                  "placement": "bottom",
-                  "showLegend": true
-                },
-                "tooltip": {
-                  "hideZeros": false,
-                  "mode": "multi",
-                  "sort": "desc"
-                }
-              }
-            }
-          }
-        }
-      },
-      "panel-22": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "time_series",
-                        "rawQuery": true,
-                        "rawSql": "SELECT period AS time, workouts AS \"workouts/mo\" FROM workout.v_consistency_month WHERE $__timeFilter(period) ORDER BY 1",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
           "id": 22,
           "links": [],
-          "title": "Workouts per Month",
+          "title": "Workouts per Week",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -2549,7 +2734,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', starttime)::date AS time, avg(workout_minutes) AS \"avg min\" FROM workout.sessions WHERE starttime IS NOT NULL AND $__timeFilter(starttime) GROUP BY 1 ORDER BY 1",
+                        "rawSql": "SELECT period AS time, workouts AS \"workouts/mo\" FROM workout.v_consistency_month WHERE $__timeFilter(period) ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -2571,6 +2756,132 @@
           },
           "description": "",
           "id": 23,
+          "links": [],
+          "title": "Workouts per Month",
+          "vizConfig": {
+            "group": "timeseries",
+            "kind": "VizConfig",
+            "version": "13.2.0-29988805803",
+            "spec": {
+              "fieldConfig": {
+                "defaults": {
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "bars",
+                    "fillOpacity": 80,
+                    "gradientMode": "opacity",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "smooth",
+                    "lineWidth": 2,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": true,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  },
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "#4C4FE0",
+                        "value": 0
+                      }
+                    ]
+                  }
+                },
+                "overrides": []
+              },
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "enableFacetedFilter": false,
+                  "overflow": "ellipsis",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "multi",
+                  "sort": "desc"
+                }
+              }
+            }
+          }
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "hidden": false,
+                    "refId": "A",
+                    "query": {
+                      "datasource": {
+                        "name": "cfua6pvpcfmkgc"
+                      },
+                      "group": "grafana-postgresql-datasource",
+                      "kind": "DataQuery",
+                      "version": "v0",
+                      "spec": {
+                        "editorMode": "code",
+                        "format": "time_series",
+                        "rawQuery": true,
+                        "rawSql": "SELECT date_trunc('week', starttime)::date AS time, avg(workout_minutes) AS \"avg min\" FROM workout.sessions WHERE starttime IS NOT NULL AND $__timeFilter(starttime) GROUP BY 1 ORDER BY 1",
+                        "sql": {
+                          "columns": [
+                            {
+                              "parameters": [],
+                              "type": "function"
+                            }
+                          ],
+                          "groupBy": [],
+                          "limit": 50
+                        }
+                      }
+                    }
+                  }
+                }
+              ],
+              "queryOptions": {},
+              "transformations": []
+            }
+          },
+          "description": "",
+          "id": 24,
           "links": [],
           "title": "Avg Session Duration (min)",
           "vizConfig": {
@@ -2653,7 +2964,7 @@
           }
         }
       },
-      "panel-24": {
+      "panel-25": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2697,7 +3008,7 @@
             }
           },
           "description": "",
-          "id": 24,
+          "id": 25,
           "links": [],
           "title": "Sets per Workout (weekly avg)",
           "vizConfig": {
@@ -2779,7 +3090,7 @@
           }
         }
       },
-      "panel-25": {
+      "panel-26": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2823,7 +3134,7 @@
             }
           },
           "description": "",
-          "id": 25,
+          "id": 26,
           "links": [],
           "title": "Bodyweight over time (with fat %)",
           "vizConfig": {
@@ -2906,7 +3217,7 @@
           }
         }
       },
-      "panel-26": {
+      "panel-27": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2950,7 +3261,7 @@
             }
           },
           "description": "",
-          "id": 26,
+          "id": 27,
           "links": [],
           "title": "Body Measurements over time (in)",
           "vizConfig": {
@@ -3148,7 +3459,7 @@
             "kind": "RowsLayoutRow",
             "spec": {
               "collapse": false,
-              "title": "Big Lifts \u2014 progression",
+              "title": "Big Lift \u2014 Bench Press",
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3165,7 +3476,21 @@
                         "width": 24,
                         "height": 9
                       }
-                    },
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Big Lift \u2014 Squat",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
                     {
                       "kind": "GridLayoutItem",
                       "spec": {
@@ -3174,21 +3499,8 @@
                           "name": "panel-8"
                         },
                         "x": 0,
-                        "y": 9,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-9"
-                        },
-                        "x": 12,
-                        "y": 9,
-                        "width": 12,
+                        "y": 0,
+                        "width": 24,
                         "height": 9
                       }
                     }
@@ -3200,8 +3512,35 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": true,
-              "title": "Deep Dive \u2014 pick a muscle group / muscle / exercise above",
+              "collapse": false,
+              "title": "Big Lift \u2014 Deadlift",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 9
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Big Lift \u2014 Shoulder Press",
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
@@ -3215,71 +3554,6 @@
                         },
                         "x": 0,
                         "y": 0,
-                        "width": 24,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-11"
-                        },
-                        "x": 0,
-                        "y": 9,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-12"
-                        },
-                        "x": 12,
-                        "y": 9,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-13"
-                        },
-                        "x": 0,
-                        "y": 18,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-14"
-                        },
-                        "x": 12,
-                        "y": 18,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-15"
-                        },
-                        "x": 0,
-                        "y": 27,
                         "width": 24,
                         "height": 9
                       }
@@ -3303,22 +3577,9 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-16"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
                           "name": "panel-17"
                         },
-                        "x": 12,
+                        "x": 0,
                         "y": 0,
                         "width": 12,
                         "height": 9
@@ -3331,6 +3592,19 @@
                           "kind": "ElementReference",
                           "name": "panel-18"
                         },
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-19"
+                        },
                         "x": 0,
                         "y": 9,
                         "width": 8,
@@ -3342,7 +3616,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-19"
+                          "name": "panel-20"
                         },
                         "x": 8,
                         "y": 9,
@@ -3355,7 +3629,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-20"
+                          "name": "panel-21"
                         },
                         "x": 0,
                         "y": 18,
@@ -3382,22 +3656,9 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-21"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 12,
-                        "height": 8
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
                           "name": "panel-22"
                         },
-                        "x": 12,
+                        "x": 0,
                         "y": 0,
                         "width": 12,
                         "height": 8
@@ -3410,6 +3671,19 @@
                           "kind": "ElementReference",
                           "name": "panel-23"
                         },
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 8
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-24"
+                        },
                         "x": 0,
                         "y": 8,
                         "width": 12,
@@ -3421,7 +3695,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-24"
+                          "name": "panel-25"
                         },
                         "x": 12,
                         "y": 8,
@@ -3448,7 +3722,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-25"
+                          "name": "panel-26"
                         },
                         "x": 0,
                         "y": 0,
@@ -3461,12 +3735,104 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-26"
+                          "name": "panel-27"
                         },
                         "x": 12,
                         "y": 0,
                         "width": 12,
                         "height": 8
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": true,
+              "title": "Deep Dive (logged-in only \u2014 filters don't work on public links) \u2014 pick a muscle group / muscle / exercise",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "x": 0,
+                        "y": 0,
+                        "width": 24,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-12"
+                        },
+                        "x": 0,
+                        "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-13"
+                        },
+                        "x": 12,
+                        "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-14"
+                        },
+                        "x": 0,
+                        "y": 18,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-15"
+                        },
+                        "x": 12,
+                        "y": 18,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-16"
+                        },
+                        "x": 0,
+                        "y": 27,
+                        "width": 24,
+                        "height": 9
                       }
                     }
                   ]
