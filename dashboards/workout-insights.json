@@ -3352,7 +3352,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Overview",
               "layout": {
                 "kind": "GridLayout",
@@ -3431,7 +3431,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "1RM Grid (Big 4)",
               "layout": {
                 "kind": "GridLayout",
@@ -3458,7 +3458,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Big Lift \u2014 Bench Press",
               "layout": {
                 "kind": "GridLayout",
@@ -3485,7 +3485,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Big Lift \u2014 Squat",
               "layout": {
                 "kind": "GridLayout",
@@ -3512,7 +3512,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Big Lift \u2014 Deadlift",
               "layout": {
                 "kind": "GridLayout",
@@ -3539,7 +3539,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Big Lift \u2014 Shoulder Press",
               "layout": {
                 "kind": "GridLayout",
