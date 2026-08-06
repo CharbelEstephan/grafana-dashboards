@@ -279,7 +279,8 @@ MANUAL_MAP: dict[str, tuple[str, str, bool]] = {
     "Machine Seated Calf Raise":                        ("calves", "legs", False),
     "Cable Seated Row":                                 ("back", "pull", True),
     "Cable Lat Pulldown (Wide Grip)":                   ("back", "pull", True),
-    "Barbell Deadlift":                                 ("hamstrings", "legs", True),
+    "Barbell Deadlift":                                 ("back", "pull", True),
+    "Barbell Romanian Deadlift":                        ("back", "pull", False),
     "Dumbbell Wrist Curl (Palms Up)":                   ("forearms", "pull", False),
 }
 

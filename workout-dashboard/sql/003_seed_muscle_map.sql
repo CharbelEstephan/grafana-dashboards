@@ -50,7 +50,7 @@ INSERT INTO workout.exercise_muscle_map (eid, muscle_group, movement, is_compoun
   (  86, 'back', 'pull', true),  -- Cable Lat Pulldown (Wide Grip)
   (  90, 'back', 'pull', true),  -- Dumbbell One-Arm Row
   (  92, 'back', 'pull', false),  -- Back Hyperextension
-  (  93, 'hamstrings', 'legs', true),  -- Barbell Deadlift
+  (  93, 'back', 'pull', true),  -- Barbell Deadlift
   (  95, 'biceps', 'pull', false),  -- EZ Bar Curl
   (  98, 'biceps', 'pull', false),  -- Dumbbell Hammer Curl (Cross Body)
   ( 100, 'biceps', 'pull', false),  -- Dumbbell Bicep Curl
@@ -85,7 +85,7 @@ INSERT INTO workout.exercise_muscle_map (eid, muscle_group, movement, is_compoun
   ( 176, 'chest', 'push', true),  -- Barbell Wide Grip Bench Press
   ( 178, 'chest', 'push', true),  -- Machine Incline Chest Press
   ( 183, 'shoulders', 'push', false),  -- Cable Shoulder Extension
-  ( 199, 'hamstrings', 'legs', false),  -- Barbell Romanian Deadlift
+  ( 199, 'back', 'pull', false),  -- Barbell Romanian Deadlift
   ( 216, 'glutes', 'legs', false),  -- Machine Hip Abduction
   ( 217, 'glutes', 'legs', false),  -- Machine Hip Adduction
   ( 221, 'triceps', 'push', false),  -- EZ Bar Tricep Extension
@@ -134,3 +134,11 @@ INSERT INTO workout.exercise_muscle_map (eid, muscle_group, movement, is_compoun
   (1334, 'triceps', 'push', false),  -- Cable One-Arm Tricep Pushdown
   (1432, 'quads', 'legs', true)  -- Bodyweight Sumo Squat
 ON CONFLICT (eid) DO NOTHING;
+
+-- ---------------------------------------------------------------------
+-- Manual overrides: re-applied on every load (take precedence over the
+-- seed above and over existing rows, since the INSERT is DO NOTHING).
+-- ---------------------------------------------------------------------
+UPDATE workout.exercise_muscle_map
+SET muscle_group = 'back', movement = 'pull'
+WHERE eid IN (93, 199);   -- Barbell Deadlift, Barbell Romanian Deadlift -> Back

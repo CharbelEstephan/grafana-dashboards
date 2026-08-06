@@ -333,6 +333,28 @@ WHERE is_working AND reps BETWEEN 1 AND 20
 GROUP BY eid, canonical_name, muscle_group, muscle_area, movement, reps;
 
 -- ---------------------------------------------------------------------
+-- v_one_rep_max : dual 1RM per exercise (working sets).
+--   actual_1rm  = heaviest TRUE single (reps = 1) if any exist, else the
+--                 heaviest weight lifted at any rep count.
+--   est_1rm     = best Epley estimate from the data.
+-- has_true_single flags whether actual_1rm came from a real 1-rep set
+-- (will fill in as quarterly 1RM days get logged).
+-- ---------------------------------------------------------------------
+CREATE OR REPLACE VIEW workout.v_one_rep_max AS
+SELECT
+    canonical_name,
+    muscle_area,
+    max(weight_lbs) FILTER (WHERE reps = 1)                 AS best_single,
+    max(weight_lbs)                                         AS heaviest_set,
+    COALESCE(max(weight_lbs) FILTER (WHERE reps = 1),
+             max(weight_lbs))                               AS actual_1rm,
+    (max(weight_lbs) FILTER (WHERE reps = 1) IS NOT NULL)   AS has_true_single,
+    ROUND(max(est_1rm), 1)                                  AS est_1rm
+FROM workout.v_sets
+WHERE is_working
+GROUP BY canonical_name, muscle_area;
+
+-- ---------------------------------------------------------------------
 -- v_current_streak : consecutive-weeks-with-a-workout streak ending now.
 -- ---------------------------------------------------------------------
 CREATE OR REPLACE VIEW workout.v_current_streak AS
