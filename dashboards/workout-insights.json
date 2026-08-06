@@ -167,188 +167,6 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT total_sets AS \"Total Sets\" FROM workout.v_overview",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 2,
-          "links": [],
-          "title": "Total Sets",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "text",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "auto",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "auto",
-                "wideLayout": false
-              }
-            }
-          }
-        }
-      },
-      "panel-3": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "table",
-                        "rawQuery": true,
-                        "rawSql": "SELECT total_reps AS \"Total Reps\" FROM workout.v_overview",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 3,
-          "links": [],
-          "title": "Total Reps",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "text",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "auto",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "auto",
-                "wideLayout": false
-              }
-            }
-          }
-        }
-      },
-      "panel-4": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "table",
-                        "rawQuery": true,
                         "rawSql": "SELECT lifetime_volume AS \"Lifetime Volume (lb)\" FROM workout.v_overview",
                         "sql": {
                           "columns": [
@@ -370,7 +188,7 @@
             }
           },
           "description": "",
-          "id": 4,
+          "id": 2,
           "links": [],
           "title": "Lifetime Volume (lb)",
           "vizConfig": {
@@ -418,7 +236,7 @@
           }
         }
       },
-      "panel-5": {
+      "panel-3": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -462,7 +280,7 @@
             }
           },
           "description": "",
-          "id": 5,
+          "id": 3,
           "links": [],
           "title": "Training Hours",
           "vizConfig": {
@@ -510,7 +328,7 @@
           }
         }
       },
-      "panel-6": {
+      "panel-4": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -554,7 +372,7 @@
             }
           },
           "description": "",
-          "id": 6,
+          "id": 4,
           "links": [],
           "title": "Current Bodyweight (lb)",
           "vizConfig": {
@@ -602,7 +420,7 @@
           }
         }
       },
-      "panel-7": {
+      "panel-5": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -646,7 +464,7 @@
             }
           },
           "description": "",
-          "id": 7,
+          "id": 5,
           "links": [],
           "title": "Streak (weeks)",
           "vizConfig": {
@@ -693,7 +511,7 @@
           }
         }
       },
-      "panel-8": {
+      "panel-6": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -716,98 +534,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT distinct_exercises AS \"Distinct Exercises\" FROM workout.v_overview",
-                        "sql": {
-                          "columns": [
-                            {
-                              "parameters": [],
-                              "type": "function"
-                            }
-                          ],
-                          "groupBy": [],
-                          "limit": 50
-                        }
-                      }
-                    }
-                  }
-                }
-              ],
-              "queryOptions": {},
-              "transformations": []
-            }
-          },
-          "description": "",
-          "id": 8,
-          "links": [],
-          "title": "Distinct Exercises",
-          "vizConfig": {
-            "group": "stat",
-            "kind": "VizConfig",
-            "version": "13.2.0-29988805803",
-            "spec": {
-              "fieldConfig": {
-                "defaults": {
-                  "color": {
-                    "fixedColor": "text",
-                    "mode": "fixed"
-                  },
-                  "thresholds": {
-                    "mode": "absolute",
-                    "steps": [
-                      {
-                        "color": "text",
-                        "value": 0
-                      }
-                    ]
-                  }
-                },
-                "overrides": []
-              },
-              "options": {
-                "colorMode": "value",
-                "graphMode": "none",
-                "justifyMode": "auto",
-                "orientation": "auto",
-                "percentChangeColorMode": "standard",
-                "reduceOptions": {
-                  "calcs": [
-                    "lastNotNull"
-                  ],
-                  "fields": "",
-                  "values": false
-                },
-                "showPercentChange": false,
-                "textMode": "auto",
-                "wideLayout": false
-              }
-            }
-          }
-        }
-      },
-      "panel-9": {
-        "kind": "Panel",
-        "spec": {
-          "data": {
-            "kind": "QueryGroup",
-            "spec": {
-              "queries": [
-                {
-                  "kind": "PanelQuery",
-                  "spec": {
-                    "hidden": false,
-                    "refId": "A",
-                    "query": {
-                      "datasource": {
-                        "name": "cfua6pvpcfmkgc"
-                      },
-                      "group": "grafana-postgresql-datasource",
-                      "kind": "DataQuery",
-                      "version": "v0",
-                      "spec": {
-                        "editorMode": "code",
-                        "format": "table",
-                        "rawQuery": true,
-                        "rawSql": "SELECT CASE canonical_name WHEN 'Barbell Bench Press' THEN 'Bench' WHEN 'Barbell Squat' THEN 'Squat' WHEN 'Barbell Deadlift' THEN 'Deadlift' WHEN 'Barbell Shoulder Press' THEN 'OHP' END AS \"Lift\", actual_1rm AS \"Actual\", CASE WHEN has_true_single THEN 'single' ELSE 'set' END AS \"Basis\", round(est_1rm)::int AS \"Est.\" FROM workout.v_one_rep_max WHERE canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY array_position(ARRAY['Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press']::text[], canonical_name)",
+                        "rawSql": "SELECT CASE canonical_name WHEN 'Barbell Bench Press' THEN 'Bench' WHEN 'Barbell Squat' THEN 'Squat' WHEN 'Barbell Deadlift' THEN 'Deadlift' WHEN 'Barbell Shoulder Press' THEN 'Shoulder Press' END AS \"Lift\", actual_1rm AS \"Actual\", CASE WHEN has_true_single THEN 'single' ELSE 'set' END AS \"Basis\", round(est_1rm)::int AS \"Est.\" FROM workout.v_one_rep_max WHERE canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY array_position(ARRAY['Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press']::text[], canonical_name)",
                         "sql": {
                           "columns": [
                             {
@@ -828,7 +555,7 @@
             }
           },
           "description": "Actual 1RM = heaviest true single (reps=1) if logged, else heaviest weight lifted at any rep (Basis: single vs set). Estimated 1RM = best Epley estimate. As you log quarterly 1RM days, the Basis flips from 'set' to 'single'.",
-          "id": 9,
+          "id": 6,
           "links": [],
           "title": "1RM \u2014 actual vs estimated",
           "vizConfig": {
@@ -869,7 +596,7 @@
           }
         }
       },
-      "panel-10": {
+      "panel-7": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -913,7 +640,7 @@
             }
           },
           "description": "Pounds lifted per pound of bodyweight, over time. Toggle heaviest-set vs average-set with Score basis. Pick a muscle group / muscle / exercise above to populate.",
-          "id": 10,
+          "id": 7,
           "links": [],
           "title": "Strength Score over time  \u2014  ${score_basis} lifted \u00f7 bodyweight",
           "vizConfig": {
@@ -996,7 +723,7 @@
           }
         }
       },
-      "panel-11": {
+      "panel-8": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1040,7 +767,7 @@
             }
           },
           "description": "Best working-set Epley 1RM per day (weight x (1 + reps/30)), computed from your sets.",
-          "id": 11,
+          "id": 8,
           "links": [],
           "title": "Estimated 1RM over time",
           "vizConfig": {
@@ -1123,7 +850,7 @@
           }
         }
       },
-      "panel-12": {
+      "panel-9": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1167,7 +894,7 @@
             }
           },
           "description": "",
-          "id": 12,
+          "id": 9,
           "links": [],
           "title": "Heaviest Set Weight over time",
           "vizConfig": {
@@ -1250,7 +977,7 @@
           }
         }
       },
-      "panel-13": {
+      "panel-10": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1294,7 +1021,7 @@
             }
           },
           "description": "For each rep count, the heaviest you've lifted. Pick a single exercise for a clean drop-off curve to plan working weights.",
-          "id": 13,
+          "id": 10,
           "links": [],
           "title": "Strength Curve \u2014 heaviest weight at each rep count",
           "vizConfig": {
@@ -1370,7 +1097,7 @@
           }
         }
       },
-      "panel-14": {
+      "panel-11": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1414,7 +1141,7 @@
             }
           },
           "description": "",
-          "id": 14,
+          "id": 11,
           "links": [],
           "title": "Weekly Volume",
           "vizConfig": {
@@ -1497,7 +1224,7 @@
           }
         }
       },
-      "panel-15": {
+      "panel-12": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1541,7 +1268,7 @@
             }
           },
           "description": "",
-          "id": 15,
+          "id": 12,
           "links": [],
           "title": "Rep PRs \u2014 max weight at each rep count",
           "vizConfig": {
@@ -1582,7 +1309,7 @@
           }
         }
       },
-      "panel-16": {
+      "panel-13": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1626,7 +1353,7 @@
             }
           },
           "description": "",
-          "id": 16,
+          "id": 13,
           "links": [],
           "title": "Volume by Muscle Group",
           "vizConfig": {
@@ -1702,7 +1429,7 @@
           }
         }
       },
-      "panel-17": {
+      "panel-14": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1746,7 +1473,7 @@
             }
           },
           "description": "",
-          "id": 17,
+          "id": 14,
           "links": [],
           "title": "Best Strength Score by Muscle Group (heaviest \u00f7 bodyweight)",
           "vizConfig": {
@@ -1821,7 +1548,7 @@
           }
         }
       },
-      "panel-18": {
+      "panel-15": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1865,7 +1592,7 @@
             }
           },
           "description": "",
-          "id": 18,
+          "id": 15,
           "links": [],
           "title": "Volume Split by Muscle Group",
           "vizConfig": {
@@ -1919,7 +1646,7 @@
           }
         }
       },
-      "panel-19": {
+      "panel-16": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -1963,7 +1690,7 @@
             }
           },
           "description": "",
-          "id": 19,
+          "id": 16,
           "links": [],
           "title": "Volume Trend by Muscle Group (stacked)",
           "vizConfig": {
@@ -2046,7 +1773,7 @@
           }
         }
       },
-      "panel-20": {
+      "panel-17": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2090,7 +1817,7 @@
             }
           },
           "description": "",
-          "id": 20,
+          "id": 17,
           "links": [],
           "title": "Top 15 Exercises by Lifetime Volume",
           "vizConfig": {
@@ -2166,7 +1893,7 @@
           }
         }
       },
-      "panel-21": {
+      "panel-18": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2210,7 +1937,7 @@
             }
           },
           "description": "",
-          "id": 21,
+          "id": 18,
           "links": [],
           "title": "Workouts per Week",
           "vizConfig": {
@@ -2292,7 +2019,7 @@
           }
         }
       },
-      "panel-22": {
+      "panel-19": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2336,7 +2063,7 @@
             }
           },
           "description": "",
-          "id": 22,
+          "id": 19,
           "links": [],
           "title": "Workouts per Month",
           "vizConfig": {
@@ -2418,7 +2145,7 @@
           }
         }
       },
-      "panel-23": {
+      "panel-20": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2462,7 +2189,7 @@
             }
           },
           "description": "",
-          "id": 23,
+          "id": 20,
           "links": [],
           "title": "Avg Session Duration (min)",
           "vizConfig": {
@@ -2545,7 +2272,7 @@
           }
         }
       },
-      "panel-24": {
+      "panel-21": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2589,7 +2316,7 @@
             }
           },
           "description": "",
-          "id": 24,
+          "id": 21,
           "links": [],
           "title": "Sets per Workout (weekly avg)",
           "vizConfig": {
@@ -2671,7 +2398,7 @@
           }
         }
       },
-      "panel-25": {
+      "panel-22": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2715,7 +2442,7 @@
             }
           },
           "description": "",
-          "id": 25,
+          "id": 22,
           "links": [],
           "title": "Bodyweight over time (with fat %)",
           "vizConfig": {
@@ -2798,7 +2525,7 @@
           }
         }
       },
-      "panel-26": {
+      "panel-23": {
         "kind": "Panel",
         "spec": {
           "data": {
@@ -2842,7 +2569,7 @@
             }
           },
           "description": "",
-          "id": 26,
+          "id": 23,
           "links": [],
           "title": "Body Measurements over time (in)",
           "vizConfig": {
@@ -3003,45 +2730,6 @@
                         "width": 4,
                         "height": 5
                       }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-6"
-                        },
-                        "x": 20,
-                        "y": 0,
-                        "width": 4,
-                        "height": 5
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-7"
-                        },
-                        "x": 0,
-                        "y": 5,
-                        "width": 4,
-                        "height": 5
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-8"
-                        },
-                        "x": 4,
-                        "y": 5,
-                        "width": 4,
-                        "height": 5
-                      }
                     }
                   ]
                 }
@@ -3062,7 +2750,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-9"
+                          "name": "panel-6"
                         },
                         "x": 0,
                         "y": 0,
@@ -3089,7 +2777,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-10"
+                          "name": "panel-7"
                         },
                         "x": 0,
                         "y": 0,
@@ -3102,10 +2790,49 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-11"
+                          "name": "panel-8"
                         },
                         "x": 0,
                         "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "x": 12,
+                        "y": 9,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        },
+                        "x": 0,
+                        "y": 18,
+                        "width": 12,
+                        "height": 9
+                      }
+                    },
+                    {
+                      "kind": "GridLayoutItem",
+                      "spec": {
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-11"
+                        },
+                        "x": 12,
+                        "y": 18,
                         "width": 12,
                         "height": 9
                       }
@@ -3116,45 +2843,6 @@
                         "element": {
                           "kind": "ElementReference",
                           "name": "panel-12"
-                        },
-                        "x": 12,
-                        "y": 9,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-13"
-                        },
-                        "x": 0,
-                        "y": 18,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-14"
-                        },
-                        "x": 12,
-                        "y": 18,
-                        "width": 12,
-                        "height": 9
-                      }
-                    },
-                    {
-                      "kind": "GridLayoutItem",
-                      "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-15"
                         },
                         "x": 0,
                         "y": 27,
@@ -3181,7 +2869,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-16"
+                          "name": "panel-13"
                         },
                         "x": 0,
                         "y": 0,
@@ -3194,7 +2882,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-17"
+                          "name": "panel-14"
                         },
                         "x": 12,
                         "y": 0,
@@ -3207,7 +2895,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-18"
+                          "name": "panel-15"
                         },
                         "x": 0,
                         "y": 9,
@@ -3220,7 +2908,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-19"
+                          "name": "panel-16"
                         },
                         "x": 8,
                         "y": 9,
@@ -3233,7 +2921,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-20"
+                          "name": "panel-17"
                         },
                         "x": 0,
                         "y": 18,
@@ -3260,7 +2948,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-21"
+                          "name": "panel-18"
                         },
                         "x": 0,
                         "y": 0,
@@ -3273,7 +2961,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-22"
+                          "name": "panel-19"
                         },
                         "x": 12,
                         "y": 0,
@@ -3286,7 +2974,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-23"
+                          "name": "panel-20"
                         },
                         "x": 0,
                         "y": 8,
@@ -3299,7 +2987,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-24"
+                          "name": "panel-21"
                         },
                         "x": 12,
                         "y": 8,
@@ -3326,7 +3014,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-25"
+                          "name": "panel-22"
                         },
                         "x": 0,
                         "y": 0,
@@ -3339,7 +3027,7 @@
                       "spec": {
                         "element": {
                           "kind": "ElementReference",
-                          "name": "panel-26"
+                          "name": "panel-23"
                         },
                         "x": 12,
                         "y": 0,
