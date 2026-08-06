@@ -642,7 +642,7 @@
           "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 7,
           "links": [],
-          "title": "Barbell Bench Press \u2014 Strength Score",
+          "title": "Bench Press \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -769,7 +769,7 @@
           "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 8,
           "links": [],
-          "title": "Barbell Squat \u2014 Strength Score",
+          "title": "Squat \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -896,7 +896,7 @@
           "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 9,
           "links": [],
-          "title": "Barbell Deadlift \u2014 Strength Score",
+          "title": "Deadlift \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -1023,7 +1023,7 @@
           "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 10,
           "links": [],
-          "title": "Barbell Shoulder Press \u2014 Strength Score",
+          "title": "Shoulder Press \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -3277,115 +3277,59 @@
               "collapse": true,
               "title": "Big Lifts",
               "layout": {
-                "kind": "RowsLayout",
+                "kind": "GridLayout",
                 "spec": {
-                  "rows": [
+                  "items": [
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "collapse": true,
-                        "title": "Bench Press",
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-7"
-                                  },
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 9
-                                }
-                              }
-                            ]
-                          }
-                        }
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-7"
+                        },
+                        "x": 0,
+                        "y": 0,
+                        "width": 12,
+                        "height": 8
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "collapse": true,
-                        "title": "Squat",
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-8"
-                                  },
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 9
-                                }
-                              }
-                            ]
-                          }
-                        }
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-8"
+                        },
+                        "x": 12,
+                        "y": 0,
+                        "width": 12,
+                        "height": 8
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "collapse": true,
-                        "title": "Deadlift",
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-9"
-                                  },
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 9
-                                }
-                              }
-                            ]
-                          }
-                        }
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-9"
+                        },
+                        "x": 0,
+                        "y": 8,
+                        "width": 12,
+                        "height": 8
                       }
                     },
                     {
-                      "kind": "RowsLayoutRow",
+                      "kind": "GridLayoutItem",
                       "spec": {
-                        "collapse": true,
-                        "title": "Shoulder Press",
-                        "layout": {
-                          "kind": "GridLayout",
-                          "spec": {
-                            "items": [
-                              {
-                                "kind": "GridLayoutItem",
-                                "spec": {
-                                  "element": {
-                                    "kind": "ElementReference",
-                                    "name": "panel-10"
-                                  },
-                                  "x": 0,
-                                  "y": 0,
-                                  "width": 24,
-                                  "height": 9
-                                }
-                              }
-                            ]
-                          }
-                        }
+                        "element": {
+                          "kind": "ElementReference",
+                          "name": "panel-10"
+                        },
+                        "x": 12,
+                        "y": 8,
+                        "width": 12,
+                        "height": 8
                       }
                     }
                   ]
