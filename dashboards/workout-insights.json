@@ -3056,7 +3056,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT mydate AS time, chest, arms, waist, shoulders, thighs, calves, neck, forearms, hips FROM workout.v_bodyweight WHERE $__timeFilter(mydate) ORDER BY 1",
+                        "rawSql": "SELECT starttime AS time, avg_heart_rate AS \"avg HR (bpm)\" FROM workout.sessions WHERE avg_heart_rate > 0 AND starttime IS NOT NULL AND $__timeFilter(starttime) ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -3076,10 +3076,10 @@
               "transformations": []
             }
           },
-          "description": "",
+          "description": "Average heart rate per session, for the workouts that recorded it (~164 of 567).",
           "id": 27,
           "links": [],
-          "title": "Body Measurements over time (in)",
+          "title": "Avg Heart Rate per Workout (bpm)",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -3099,7 +3099,7 @@
                     "barAlignment": 0,
                     "barWidthFactor": 0.6,
                     "drawStyle": "line",
-                    "fillOpacity": 10,
+                    "fillOpacity": 5,
                     "gradientMode": "opacity",
                     "hideFrom": {
                       "legend": false,
@@ -3109,11 +3109,11 @@
                     "insertNulls": false,
                     "lineInterpolation": "smooth",
                     "lineWidth": 2,
-                    "pointSize": 5,
+                    "pointSize": 6,
                     "scaleDistribution": {
                       "type": "linear"
                     },
-                    "showPoints": "auto",
+                    "showPoints": "always",
                     "showValues": false,
                     "spanNulls": true,
                     "stacking": {
@@ -3133,7 +3133,7 @@
                       }
                     ]
                   },
-                  "unit": "lengthin"
+                  "decimals": 0
                 },
                 "overrides": []
               },
@@ -3486,7 +3486,7 @@
             "kind": "RowsLayoutRow",
             "spec": {
               "collapse": true,
-              "title": "Bodyweight",
+              "title": "Bodyweight & Heart Rate",
               "layout": {
                 "kind": "GridLayout",
                 "spec": {
