@@ -807,7 +807,7 @@
                         "editorMode": "code",
                         "format": "table",
                         "rawQuery": true,
-                        "rawSql": "SELECT canonical_name AS \"Lift\", actual_1rm AS \"Actual 1RM (lb)\", CASE WHEN has_true_single THEN 'true single' ELSE 'heaviest set (no single yet)' END AS \"Actual basis\", est_1rm AS \"Est. 1RM (lb)\" FROM workout.v_one_rep_max WHERE canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY array_position(ARRAY['Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press']::text[], canonical_name)",
+                        "rawSql": "SELECT CASE canonical_name WHEN 'Barbell Bench Press' THEN 'Bench' WHEN 'Barbell Squat' THEN 'Squat' WHEN 'Barbell Deadlift' THEN 'Deadlift' WHEN 'Barbell Shoulder Press' THEN 'OHP' END AS \"Lift\", actual_1rm AS \"Actual\", CASE WHEN has_true_single THEN 'single' ELSE 'set' END AS \"Basis\", round(est_1rm)::int AS \"Est.\" FROM workout.v_one_rep_max WHERE canonical_name IN ('Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press') ORDER BY array_position(ARRAY['Barbell Bench Press','Barbell Squat','Barbell Deadlift','Barbell Shoulder Press']::text[], canonical_name)",
                         "sql": {
                           "columns": [
                             {
@@ -827,10 +827,10 @@
               "transformations": []
             }
           },
-          "description": "Actual 1RM = heaviest true single (reps=1) if logged, else heaviest weight lifted at any rep. Estimated 1RM = best Epley estimate from all sets. As you log quarterly 1RM days, the actual column switches from 'heaviest set' to 'true single'.",
+          "description": "Actual 1RM = heaviest true single (reps=1) if logged, else heaviest weight lifted at any rep (Basis: single vs set). Estimated 1RM = best Epley estimate. As you log quarterly 1RM days, the Basis flips from 'set' to 'single'.",
           "id": 9,
           "links": [],
-          "title": "1RM Grid \u2014 actual vs estimated (Big 4)",
+          "title": "1RM \u2014 actual vs estimated",
           "vizConfig": {
             "group": "table",
             "kind": "VizConfig",
@@ -3066,7 +3066,7 @@
                         },
                         "x": 0,
                         "y": 0,
-                        "width": 24,
+                        "width": 10,
                         "height": 6
                       }
                     }
