@@ -3275,103 +3275,117 @@
             "kind": "RowsLayoutRow",
             "spec": {
               "collapse": true,
-              "title": "Big Lift \u2014 Bench Press",
+              "title": "Big Lifts",
               "layout": {
-                "kind": "GridLayout",
+                "kind": "RowsLayout",
                 "spec": {
-                  "items": [
+                  "rows": [
                     {
-                      "kind": "GridLayoutItem",
+                      "kind": "RowsLayoutRow",
                       "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-7"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 24,
-                        "height": 9
+                        "collapse": true,
+                        "title": "Bench Press",
+                        "layout": {
+                          "kind": "GridLayout",
+                          "spec": {
+                            "items": [
+                              {
+                                "kind": "GridLayoutItem",
+                                "spec": {
+                                  "element": {
+                                    "kind": "ElementReference",
+                                    "name": "panel-7"
+                                  },
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 24,
+                                  "height": 9
+                                }
+                              }
+                            ]
+                          }
+                        }
                       }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "kind": "RowsLayoutRow",
-            "spec": {
-              "collapse": true,
-              "title": "Big Lift \u2014 Squat",
-              "layout": {
-                "kind": "GridLayout",
-                "spec": {
-                  "items": [
+                    },
                     {
-                      "kind": "GridLayoutItem",
+                      "kind": "RowsLayoutRow",
                       "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-8"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 24,
-                        "height": 9
+                        "collapse": true,
+                        "title": "Squat",
+                        "layout": {
+                          "kind": "GridLayout",
+                          "spec": {
+                            "items": [
+                              {
+                                "kind": "GridLayoutItem",
+                                "spec": {
+                                  "element": {
+                                    "kind": "ElementReference",
+                                    "name": "panel-8"
+                                  },
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 24,
+                                  "height": 9
+                                }
+                              }
+                            ]
+                          }
+                        }
                       }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "kind": "RowsLayoutRow",
-            "spec": {
-              "collapse": true,
-              "title": "Big Lift \u2014 Deadlift",
-              "layout": {
-                "kind": "GridLayout",
-                "spec": {
-                  "items": [
+                    },
                     {
-                      "kind": "GridLayoutItem",
+                      "kind": "RowsLayoutRow",
                       "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-9"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 24,
-                        "height": 9
+                        "collapse": true,
+                        "title": "Deadlift",
+                        "layout": {
+                          "kind": "GridLayout",
+                          "spec": {
+                            "items": [
+                              {
+                                "kind": "GridLayoutItem",
+                                "spec": {
+                                  "element": {
+                                    "kind": "ElementReference",
+                                    "name": "panel-9"
+                                  },
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 24,
+                                  "height": 9
+                                }
+                              }
+                            ]
+                          }
+                        }
                       }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          {
-            "kind": "RowsLayoutRow",
-            "spec": {
-              "collapse": true,
-              "title": "Big Lift \u2014 Shoulder Press",
-              "layout": {
-                "kind": "GridLayout",
-                "spec": {
-                  "items": [
+                    },
                     {
-                      "kind": "GridLayoutItem",
+                      "kind": "RowsLayoutRow",
                       "spec": {
-                        "element": {
-                          "kind": "ElementReference",
-                          "name": "panel-10"
-                        },
-                        "x": 0,
-                        "y": 0,
-                        "width": 24,
-                        "height": 9
+                        "collapse": true,
+                        "title": "Shoulder Press",
+                        "layout": {
+                          "kind": "GridLayout",
+                          "spec": {
+                            "items": [
+                              {
+                                "kind": "GridLayoutItem",
+                                "spec": {
+                                  "element": {
+                                    "kind": "ElementReference",
+                                    "name": "panel-10"
+                                  },
+                                  "x": 0,
+                                  "y": 0,
+                                  "width": 24,
+                                  "height": 9
+                                }
+                              }
+                            ]
+                          }
+                        }
                       }
                     }
                   ]
