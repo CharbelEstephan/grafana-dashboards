@@ -3128,78 +3128,725 @@
         }
       },
       {
-        "kind": "QueryVariable",
+        "kind": "CustomVariable",
         "spec": {
           "name": "muscle",
           "label": "Muscle",
           "hide": "dontHide",
-          "refresh": "onDashboardLoad",
           "skipUrlSync": false,
           "description": "",
-          "datasource": {
-            "name": "cfua6pvpcfmkgc"
-          },
-          "query": {
-            "datasource": {
-              "name": "cfua6pvpcfmkgc"
-            },
-            "group": "grafana-postgresql-datasource",
-            "kind": "DataQuery",
-            "version": "v0",
-            "spec": {
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT m FROM ( SELECT 'None' AS m, 0 AS ord UNION ALL SELECT DISTINCT muscle_group, 1 FROM workout.v_muscle_area WHERE ('${area}' = 'None' OR muscle_area = '${area}')) t ORDER BY ord, m"
-            }
-          },
-          "regex": "",
-          "sort": "disabled",
-          "definition": "SELECT m FROM ( SELECT 'None' AS m, 0 AS ord UNION ALL SELECT DISTINCT muscle_group, 1 FROM workout.v_muscle_area WHERE ('${area}' = 'None' OR muscle_area = '${area}')) t ORDER BY ord, m",
-          "options": [],
+          "query": "None,abs,back,biceps,calves,chest,forearms,glutes,hamstrings,quads,rear delts,shoulders,traps,triceps",
           "current": {
             "text": "None",
             "value": "None"
           },
+          "options": [
+            {
+              "text": "None",
+              "value": "None",
+              "selected": true
+            },
+            {
+              "text": "abs",
+              "value": "abs",
+              "selected": false
+            },
+            {
+              "text": "back",
+              "value": "back",
+              "selected": false
+            },
+            {
+              "text": "biceps",
+              "value": "biceps",
+              "selected": false
+            },
+            {
+              "text": "calves",
+              "value": "calves",
+              "selected": false
+            },
+            {
+              "text": "chest",
+              "value": "chest",
+              "selected": false
+            },
+            {
+              "text": "forearms",
+              "value": "forearms",
+              "selected": false
+            },
+            {
+              "text": "glutes",
+              "value": "glutes",
+              "selected": false
+            },
+            {
+              "text": "hamstrings",
+              "value": "hamstrings",
+              "selected": false
+            },
+            {
+              "text": "quads",
+              "value": "quads",
+              "selected": false
+            },
+            {
+              "text": "rear delts",
+              "value": "rear delts",
+              "selected": false
+            },
+            {
+              "text": "shoulders",
+              "value": "shoulders",
+              "selected": false
+            },
+            {
+              "text": "traps",
+              "value": "traps",
+              "selected": false
+            },
+            {
+              "text": "triceps",
+              "value": "triceps",
+              "selected": false
+            }
+          ],
           "multi": false,
           "includeAll": false,
           "allValue": ""
         }
       },
       {
-        "kind": "QueryVariable",
+        "kind": "CustomVariable",
         "spec": {
           "name": "exercise",
           "label": "Exercise",
           "hide": "dontHide",
-          "refresh": "onDashboardLoad",
           "skipUrlSync": false,
           "description": "",
-          "datasource": {
-            "name": "cfua6pvpcfmkgc"
-          },
-          "query": {
-            "datasource": {
-              "name": "cfua6pvpcfmkgc"
-            },
-            "group": "grafana-postgresql-datasource",
-            "kind": "DataQuery",
-            "version": "v0",
-            "spec": {
-              "editorMode": "code",
-              "format": "table",
-              "rawQuery": true,
-              "rawSql": "SELECT e FROM ( SELECT 'None' AS e, 0 AS ord UNION ALL SELECT ex.canonical_name, 1 FROM workout.exercises ex LEFT JOIN workout.v_muscle_area ma ON ma.muscle_group = ex.muscle_group WHERE ('${area}' = 'None' OR ma.muscle_area = '${area}')   AND ('${muscle}' = 'None' OR ex.muscle_group = '${muscle}')) t ORDER BY ord, e"
-            }
-          },
-          "regex": "",
-          "sort": "disabled",
-          "definition": "SELECT e FROM ( SELECT 'None' AS e, 0 AS ord UNION ALL SELECT ex.canonical_name, 1 FROM workout.exercises ex LEFT JOIN workout.v_muscle_area ma ON ma.muscle_group = ex.muscle_group WHERE ('${area}' = 'None' OR ma.muscle_area = '${area}')   AND ('${muscle}' = 'None' OR ex.muscle_group = '${muscle}')) t ORDER BY ord, e",
-          "options": [],
+          "query": "None,Archer pulls,Back Hyperextension,Barbell bar push up,Barbell Bench Press,Barbell Bench Press (Close Grip),Barbell Bent-Over Row,Barbell Curl,Barbell Deadlift,Barbell Decline Bench Press,Barbell Front Raise,Barbell Good Morning,Barbell Hip Thrust,Barbell Incline Bench Press,Barbell Incline Bench Row,Barbell Preacher Curl,Barbell Rack Pull,Barbell Reverse Curl,Barbell Romanian Deadlift,Barbell Row,Barbell Shoulder Press,Barbell Shrug,Barbell Squat,Barbell Upright Row,Barbell Wide Grip Bench Press,Barbell Wrist Curl (Posterior),Bodyweight Sumo Squat,Cable Bicep Curl,Cable Cross-Over,Cable Lat Pulldown (Wide Grip),Cable Mid Chest Crossover,Cable One-Arm Row,Cable One-Arm Tricep Extension,Cable One-Arm Tricep Pushdown,Cable One-Arm Tricep Pushdown (Reverse Grip),Cable One-Arm Tricep Pushdown (Reverse Grip),Cable Pallof Press with Rotation,Cable Rope Face Pull,Cable Rope High Pulley Tricep Extension,Cable Rope Overhead Tricep Extension,Cable Rope Seated Row,Cable Seated Row,Cable Shoulder Extension,Cable Shoulder Extension,Cable Straight Arm Crossover,Cable Tricep Pushdown (Rope),Cable Tricep Pushdown (V-Bar),Calf Press On Leg Press,Casket raiser,Decline Crunch,Dumbbell Alternating Bicep Curl,Dumbbell Alternating Hammer Curl,Dumbbell Alternating Seated Curl,Dumbbell Arnold Press,Dumbbell Around the World,Dumbbell Bench Press,Dumbbell Bicep Curl,Dumbbell Calf Raise,Dumbbell Concentration Curl,Dumbbell Fly,Dumbbell Front Raise,Dumbbell Hammer Curl,Dumbbell Hammer Curl (Cross Body),Dumbbell Incline Bench Press,Dumbbell Incline Curl,Dumbbell Incline Fly,Dumbbell Inner Bicep Curl,Dumbbell Lateral Raise,Dumbbell One-Arm Row,Dumbbell One-Arm Shoulder Press,Dumbbell Seated Alternating Hammer Curl,Dumbbell Seated Arnold Press,Dumbbell Seated Hammer Curl,Dumbbell Seated Shoulder Press,Dumbbell Seated Tricep Press,Dumbbell Seated Wrist Curl,Dumbbell Shoulder Press,Dumbbell Shoulder Shrug,Dumbbell Side Bend,Dumbbell Supinated One-Arm Wrist Curl,Dumbbell Tricep Extension,Dumbbell Wrist Curl (Palms Down),Dumbbell Wrist Curl (Palms Up),EZ Bar Curl,EZ Bar Curl (Reverse Grip),EZ Bar Tricep Extension,Hack Squat,Hanging Leg Raise,Kettlebell Goblet Squat,Machine Ab Crunch,Machine Back Extension,Machine Bicep Curl (Reverse Grip),Machine Calf Press,Machine Fly,Machine Hammer Curl,Machine Hip Abduction,Machine Hip Adduction,Machine Incline Chest Press,Machine Inner Chest Press,Machine Lat Pulldown,Machine Lateral Shoulder Raise,Machine Leg Curl (Prone),Machine Leg Extension,Machine Leg Press,Machine Leg Press (Narrow Stance),Machine Leg Press (Wide Stance),Machine Reverse Fly,Machine Reverse T Bar Row,Machine Seated Calf Raise,Machine Seated Leg Curl,Machine Seated Row,Machine Shoulder Press,Machine Tricep Extension,Preacher Curl Machine,Row Grip Chest Pull,Smith machine 1 arm shoulder raise,Smith Machine Reverse Calf Raise,Smith Machine Shrug,Smith Machine Squat,Standing Abductor,T Bar Row,Thigh abduction,Wrist Roller",
           "current": {
             "text": "None",
             "value": "None"
           },
+          "options": [
+            {
+              "text": "None",
+              "value": "None",
+              "selected": true
+            },
+            {
+              "text": "Archer pulls",
+              "value": "Archer pulls",
+              "selected": false
+            },
+            {
+              "text": "Back Hyperextension",
+              "value": "Back Hyperextension",
+              "selected": false
+            },
+            {
+              "text": "Barbell bar push up",
+              "value": "Barbell bar push up",
+              "selected": false
+            },
+            {
+              "text": "Barbell Bench Press",
+              "value": "Barbell Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Barbell Bench Press (Close Grip)",
+              "value": "Barbell Bench Press (Close Grip)",
+              "selected": false
+            },
+            {
+              "text": "Barbell Bent-Over Row",
+              "value": "Barbell Bent-Over Row",
+              "selected": false
+            },
+            {
+              "text": "Barbell Curl",
+              "value": "Barbell Curl",
+              "selected": false
+            },
+            {
+              "text": "Barbell Deadlift",
+              "value": "Barbell Deadlift",
+              "selected": false
+            },
+            {
+              "text": "Barbell Decline Bench Press",
+              "value": "Barbell Decline Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Barbell Front Raise",
+              "value": "Barbell Front Raise",
+              "selected": false
+            },
+            {
+              "text": "Barbell Good Morning",
+              "value": "Barbell Good Morning",
+              "selected": false
+            },
+            {
+              "text": "Barbell Hip Thrust",
+              "value": "Barbell Hip Thrust",
+              "selected": false
+            },
+            {
+              "text": "Barbell Incline Bench Press",
+              "value": "Barbell Incline Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Barbell Incline Bench Row",
+              "value": "Barbell Incline Bench Row",
+              "selected": false
+            },
+            {
+              "text": "Barbell Preacher Curl",
+              "value": "Barbell Preacher Curl",
+              "selected": false
+            },
+            {
+              "text": "Barbell Rack Pull",
+              "value": "Barbell Rack Pull",
+              "selected": false
+            },
+            {
+              "text": "Barbell Reverse Curl",
+              "value": "Barbell Reverse Curl",
+              "selected": false
+            },
+            {
+              "text": "Barbell Romanian Deadlift",
+              "value": "Barbell Romanian Deadlift",
+              "selected": false
+            },
+            {
+              "text": "Barbell Row",
+              "value": "Barbell Row",
+              "selected": false
+            },
+            {
+              "text": "Barbell Shoulder Press",
+              "value": "Barbell Shoulder Press",
+              "selected": false
+            },
+            {
+              "text": "Barbell Shrug",
+              "value": "Barbell Shrug",
+              "selected": false
+            },
+            {
+              "text": "Barbell Squat",
+              "value": "Barbell Squat",
+              "selected": false
+            },
+            {
+              "text": "Barbell Upright Row",
+              "value": "Barbell Upright Row",
+              "selected": false
+            },
+            {
+              "text": "Barbell Wide Grip Bench Press",
+              "value": "Barbell Wide Grip Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Barbell Wrist Curl (Posterior)",
+              "value": "Barbell Wrist Curl (Posterior)",
+              "selected": false
+            },
+            {
+              "text": "Bodyweight Sumo Squat",
+              "value": "Bodyweight Sumo Squat",
+              "selected": false
+            },
+            {
+              "text": "Cable Bicep Curl",
+              "value": "Cable Bicep Curl",
+              "selected": false
+            },
+            {
+              "text": "Cable Cross-Over",
+              "value": "Cable Cross-Over",
+              "selected": false
+            },
+            {
+              "text": "Cable Lat Pulldown (Wide Grip)",
+              "value": "Cable Lat Pulldown (Wide Grip)",
+              "selected": false
+            },
+            {
+              "text": "Cable Mid Chest Crossover",
+              "value": "Cable Mid Chest Crossover",
+              "selected": false
+            },
+            {
+              "text": "Cable One-Arm Row",
+              "value": "Cable One-Arm Row",
+              "selected": false
+            },
+            {
+              "text": "Cable One-Arm Tricep Extension",
+              "value": "Cable One-Arm Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Cable One-Arm Tricep Pushdown",
+              "value": "Cable One-Arm Tricep Pushdown",
+              "selected": false
+            },
+            {
+              "text": "Cable One-Arm Tricep Pushdown (Reverse Grip)",
+              "value": "Cable One-Arm Tricep Pushdown (Reverse Grip)",
+              "selected": false
+            },
+            {
+              "text": "Cable One-Arm Tricep Pushdown (Reverse Grip)",
+              "value": "Cable One-Arm Tricep Pushdown (Reverse Grip)",
+              "selected": false
+            },
+            {
+              "text": "Cable Pallof Press with Rotation",
+              "value": "Cable Pallof Press with Rotation",
+              "selected": false
+            },
+            {
+              "text": "Cable Rope Face Pull",
+              "value": "Cable Rope Face Pull",
+              "selected": false
+            },
+            {
+              "text": "Cable Rope High Pulley Tricep Extension",
+              "value": "Cable Rope High Pulley Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Cable Rope Overhead Tricep Extension",
+              "value": "Cable Rope Overhead Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Cable Rope Seated Row",
+              "value": "Cable Rope Seated Row",
+              "selected": false
+            },
+            {
+              "text": "Cable Seated Row",
+              "value": "Cable Seated Row",
+              "selected": false
+            },
+            {
+              "text": "Cable Shoulder Extension",
+              "value": "Cable Shoulder Extension",
+              "selected": false
+            },
+            {
+              "text": "Cable Shoulder Extension",
+              "value": "Cable Shoulder Extension",
+              "selected": false
+            },
+            {
+              "text": "Cable Straight Arm Crossover",
+              "value": "Cable Straight Arm Crossover",
+              "selected": false
+            },
+            {
+              "text": "Cable Tricep Pushdown (Rope)",
+              "value": "Cable Tricep Pushdown (Rope)",
+              "selected": false
+            },
+            {
+              "text": "Cable Tricep Pushdown (V-Bar)",
+              "value": "Cable Tricep Pushdown (V-Bar)",
+              "selected": false
+            },
+            {
+              "text": "Calf Press On Leg Press",
+              "value": "Calf Press On Leg Press",
+              "selected": false
+            },
+            {
+              "text": "Casket raiser",
+              "value": "Casket raiser",
+              "selected": false
+            },
+            {
+              "text": "Decline Crunch",
+              "value": "Decline Crunch",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Alternating Bicep Curl",
+              "value": "Dumbbell Alternating Bicep Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Alternating Hammer Curl",
+              "value": "Dumbbell Alternating Hammer Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Alternating Seated Curl",
+              "value": "Dumbbell Alternating Seated Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Arnold Press",
+              "value": "Dumbbell Arnold Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Around the World",
+              "value": "Dumbbell Around the World",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Bench Press",
+              "value": "Dumbbell Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Bicep Curl",
+              "value": "Dumbbell Bicep Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Calf Raise",
+              "value": "Dumbbell Calf Raise",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Concentration Curl",
+              "value": "Dumbbell Concentration Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Fly",
+              "value": "Dumbbell Fly",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Front Raise",
+              "value": "Dumbbell Front Raise",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Hammer Curl",
+              "value": "Dumbbell Hammer Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Hammer Curl (Cross Body)",
+              "value": "Dumbbell Hammer Curl (Cross Body)",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Incline Bench Press",
+              "value": "Dumbbell Incline Bench Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Incline Curl",
+              "value": "Dumbbell Incline Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Incline Fly",
+              "value": "Dumbbell Incline Fly",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Inner Bicep Curl",
+              "value": "Dumbbell Inner Bicep Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Lateral Raise",
+              "value": "Dumbbell Lateral Raise",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell One-Arm Row",
+              "value": "Dumbbell One-Arm Row",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell One-Arm Shoulder Press",
+              "value": "Dumbbell One-Arm Shoulder Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Alternating Hammer Curl",
+              "value": "Dumbbell Seated Alternating Hammer Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Arnold Press",
+              "value": "Dumbbell Seated Arnold Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Hammer Curl",
+              "value": "Dumbbell Seated Hammer Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Shoulder Press",
+              "value": "Dumbbell Seated Shoulder Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Tricep Press",
+              "value": "Dumbbell Seated Tricep Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Seated Wrist Curl",
+              "value": "Dumbbell Seated Wrist Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Shoulder Press",
+              "value": "Dumbbell Shoulder Press",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Shoulder Shrug",
+              "value": "Dumbbell Shoulder Shrug",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Side Bend",
+              "value": "Dumbbell Side Bend",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Supinated One-Arm Wrist Curl",
+              "value": "Dumbbell Supinated One-Arm Wrist Curl",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Tricep Extension",
+              "value": "Dumbbell Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Wrist Curl (Palms Down)",
+              "value": "Dumbbell Wrist Curl (Palms Down)",
+              "selected": false
+            },
+            {
+              "text": "Dumbbell Wrist Curl (Palms Up)",
+              "value": "Dumbbell Wrist Curl (Palms Up)",
+              "selected": false
+            },
+            {
+              "text": "EZ Bar Curl",
+              "value": "EZ Bar Curl",
+              "selected": false
+            },
+            {
+              "text": "EZ Bar Curl (Reverse Grip)",
+              "value": "EZ Bar Curl (Reverse Grip)",
+              "selected": false
+            },
+            {
+              "text": "EZ Bar Tricep Extension",
+              "value": "EZ Bar Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Hack Squat",
+              "value": "Hack Squat",
+              "selected": false
+            },
+            {
+              "text": "Hanging Leg Raise",
+              "value": "Hanging Leg Raise",
+              "selected": false
+            },
+            {
+              "text": "Kettlebell Goblet Squat",
+              "value": "Kettlebell Goblet Squat",
+              "selected": false
+            },
+            {
+              "text": "Machine Ab Crunch",
+              "value": "Machine Ab Crunch",
+              "selected": false
+            },
+            {
+              "text": "Machine Back Extension",
+              "value": "Machine Back Extension",
+              "selected": false
+            },
+            {
+              "text": "Machine Bicep Curl (Reverse Grip)",
+              "value": "Machine Bicep Curl (Reverse Grip)",
+              "selected": false
+            },
+            {
+              "text": "Machine Calf Press",
+              "value": "Machine Calf Press",
+              "selected": false
+            },
+            {
+              "text": "Machine Fly",
+              "value": "Machine Fly",
+              "selected": false
+            },
+            {
+              "text": "Machine Hammer Curl",
+              "value": "Machine Hammer Curl",
+              "selected": false
+            },
+            {
+              "text": "Machine Hip Abduction",
+              "value": "Machine Hip Abduction",
+              "selected": false
+            },
+            {
+              "text": "Machine Hip Adduction",
+              "value": "Machine Hip Adduction",
+              "selected": false
+            },
+            {
+              "text": "Machine Incline Chest Press",
+              "value": "Machine Incline Chest Press",
+              "selected": false
+            },
+            {
+              "text": "Machine Inner Chest Press",
+              "value": "Machine Inner Chest Press",
+              "selected": false
+            },
+            {
+              "text": "Machine Lat Pulldown",
+              "value": "Machine Lat Pulldown",
+              "selected": false
+            },
+            {
+              "text": "Machine Lateral Shoulder Raise",
+              "value": "Machine Lateral Shoulder Raise",
+              "selected": false
+            },
+            {
+              "text": "Machine Leg Curl (Prone)",
+              "value": "Machine Leg Curl (Prone)",
+              "selected": false
+            },
+            {
+              "text": "Machine Leg Extension",
+              "value": "Machine Leg Extension",
+              "selected": false
+            },
+            {
+              "text": "Machine Leg Press",
+              "value": "Machine Leg Press",
+              "selected": false
+            },
+            {
+              "text": "Machine Leg Press (Narrow Stance)",
+              "value": "Machine Leg Press (Narrow Stance)",
+              "selected": false
+            },
+            {
+              "text": "Machine Leg Press (Wide Stance)",
+              "value": "Machine Leg Press (Wide Stance)",
+              "selected": false
+            },
+            {
+              "text": "Machine Reverse Fly",
+              "value": "Machine Reverse Fly",
+              "selected": false
+            },
+            {
+              "text": "Machine Reverse T Bar Row",
+              "value": "Machine Reverse T Bar Row",
+              "selected": false
+            },
+            {
+              "text": "Machine Seated Calf Raise",
+              "value": "Machine Seated Calf Raise",
+              "selected": false
+            },
+            {
+              "text": "Machine Seated Leg Curl",
+              "value": "Machine Seated Leg Curl",
+              "selected": false
+            },
+            {
+              "text": "Machine Seated Row",
+              "value": "Machine Seated Row",
+              "selected": false
+            },
+            {
+              "text": "Machine Shoulder Press",
+              "value": "Machine Shoulder Press",
+              "selected": false
+            },
+            {
+              "text": "Machine Tricep Extension",
+              "value": "Machine Tricep Extension",
+              "selected": false
+            },
+            {
+              "text": "Preacher Curl Machine",
+              "value": "Preacher Curl Machine",
+              "selected": false
+            },
+            {
+              "text": "Row Grip Chest Pull",
+              "value": "Row Grip Chest Pull",
+              "selected": false
+            },
+            {
+              "text": "Smith machine 1 arm shoulder raise",
+              "value": "Smith machine 1 arm shoulder raise",
+              "selected": false
+            },
+            {
+              "text": "Smith Machine Reverse Calf Raise",
+              "value": "Smith Machine Reverse Calf Raise",
+              "selected": false
+            },
+            {
+              "text": "Smith Machine Shrug",
+              "value": "Smith Machine Shrug",
+              "selected": false
+            },
+            {
+              "text": "Smith Machine Squat",
+              "value": "Smith Machine Squat",
+              "selected": false
+            },
+            {
+              "text": "Standing Abductor",
+              "value": "Standing Abductor",
+              "selected": false
+            },
+            {
+              "text": "T Bar Row",
+              "value": "T Bar Row",
+              "selected": false
+            },
+            {
+              "text": "Thigh abduction",
+              "value": "Thigh abduction",
+              "selected": false
+            },
+            {
+              "text": "Wrist Roller",
+              "value": "Wrist Roller",
+              "selected": false
+            }
+          ],
           "multi": false,
           "includeAll": false,
           "allValue": ""

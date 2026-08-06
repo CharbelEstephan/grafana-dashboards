@@ -39,11 +39,15 @@ It has 5 collapsible rows: **Overview**, **Deep Dive** (filter-driven), **By Mus
 ## Notes
 - **Variables** (top of the dashboard) form a drill-down, all defaulting to **None** so the
   Deep Dive starts empty (not hectic): `$area` (general group — Legs / Chest / Back /
-  Shoulders / Arms / Core), `$muscle` (specific muscle, chained to the area — e.g. Legs →
-  quads/hamstrings/calves/glutes), `$exercise` (chained to both). Plus `$set_type`
-  (working / all / warm-up, default working) and `$score_basis` (heaviest vs average) which
-  toggles the custom Strength Score. Pick an area, then optionally a muscle, then an exercise
-  to drill in — panels fill in as you narrow.
+  Shoulders / Arms / Core), `$muscle` (specific muscle — quads, hamstrings, …), `$exercise`,
+  plus `$set_type` (working / all / warm-up, default working) and `$score_basis` (heaviest vs
+  average) which toggles the custom Strength Score. Filter precedence is exercise > muscle >
+  area, so pick whichever level you want.
+- All variables are **custom (static) lists**, not datasource queries — this is deliberate so
+  the dropdowns work on **public / externally-shared dashboards** (anonymous viewers can't run
+  variable queries). Trade-off: the `$muscle` and `$exercise` lists are the full sets (13 and
+  ~122, both searchable) and don't auto-narrow to the selected area. **If you add new
+  exercises, re-generate these lists** (they're baked into `workout-insights.json`).
 - **Custom Strength Score** = pounds lifted ÷ nearest-date bodyweight, plotted over time.
   `heaviest` uses your top working set; `average` uses the mean working-set load (smoother).
   Rising while bodyweight falls = getting relatively stronger.
