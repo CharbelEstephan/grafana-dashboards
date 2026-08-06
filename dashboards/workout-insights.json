@@ -619,7 +619,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Bench Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Bench Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -639,10 +639,10 @@
               "transformations": []
             }
           },
-          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
+          "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 7,
           "links": [],
-          "title": "Barbell Bench Press \u2014 Strength Score (left) vs Heaviest Set (right)",
+          "title": "Barbell Bench Press \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -695,56 +695,10 @@
                         "value": 0
                       }
                     ]
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Heaviest set (lb)"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "right"
-                      },
-                      {
-                        "id": "unit",
-                        "value": "short"
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#D9A441"
-                        }
-                      }
-                    ]
                   },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Strength score"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "left"
-                      },
-                      {
-                        "id": "decimals",
-                        "value": 3
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#4C8CFF"
-                        }
-                      }
-                    ]
-                  }
-                ]
+                  "decimals": 3
+                },
+                "overrides": []
               },
               "options": {
                 "annotations": {
@@ -792,7 +746,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Squat' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Squat' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -812,10 +766,10 @@
               "transformations": []
             }
           },
-          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
+          "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 8,
           "links": [],
-          "title": "Barbell Squat \u2014 Strength Score (left) vs Heaviest Set (right)",
+          "title": "Barbell Squat \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -868,56 +822,10 @@
                         "value": 0
                       }
                     ]
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Heaviest set (lb)"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "right"
-                      },
-                      {
-                        "id": "unit",
-                        "value": "short"
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#D9A441"
-                        }
-                      }
-                    ]
                   },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Strength score"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "left"
-                      },
-                      {
-                        "id": "decimals",
-                        "value": 3
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#4C8CFF"
-                        }
-                      }
-                    ]
-                  }
-                ]
+                  "decimals": 3
+                },
+                "overrides": []
               },
               "options": {
                 "annotations": {
@@ -965,7 +873,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Deadlift' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Deadlift' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -985,10 +893,10 @@
               "transformations": []
             }
           },
-          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
+          "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 9,
           "links": [],
-          "title": "Barbell Deadlift \u2014 Strength Score (left) vs Heaviest Set (right)",
+          "title": "Barbell Deadlift \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -1041,56 +949,10 @@
                         "value": 0
                       }
                     ]
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Heaviest set (lb)"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "right"
-                      },
-                      {
-                        "id": "unit",
-                        "value": "short"
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#D9A441"
-                        }
-                      }
-                    ]
                   },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Strength score"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "left"
-                      },
-                      {
-                        "id": "decimals",
-                        "value": 3
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#4C8CFF"
-                        }
-                      }
-                    ]
-                  }
-                ]
+                  "decimals": 3
+                },
+                "overrides": []
               },
               "options": {
                 "annotations": {
@@ -1138,7 +1000,7 @@
                         "editorMode": "code",
                         "format": "time_series",
                         "rawQuery": true,
-                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\", max(weight_lbs) FILTER (WHERE is_working) AS \"Heaviest set (lb)\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Shoulder Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
+                        "rawSql": "SELECT date_trunc('week', workout_date)::date AS time, CASE WHEN '${score_basis}' = 'heaviest' THEN ROUND(max(rel_weight) FILTER (WHERE is_working), 3) ELSE ROUND(avg(rel_weight) FILTER (WHERE is_working), 3) END AS \"Strength score\" FROM workout.v_sets_rel WHERE canonical_name = 'Barbell Shoulder Press' AND $__timeFilter(workout_date) GROUP BY 1 ORDER BY 1",
                         "sql": {
                           "columns": [
                             {
@@ -1158,10 +1020,10 @@
               "transformations": []
             }
           },
-          "description": "Blue = custom Strength Score (${score_basis} weight \u00f7 bodyweight, left axis). Gold = heaviest working set in lb (right axis). If Strength Score climbs while Heaviest Set is flat, your bodyweight dropped (relatively stronger), and vice versa.",
+          "description": "Custom Strength Score = ${score_basis} weight lifted \u00f7 bodyweight, over time. Rising while bodyweight falls = getting relatively stronger.",
           "id": 10,
           "links": [],
-          "title": "Barbell Shoulder Press \u2014 Strength Score (left) vs Heaviest Set (right)",
+          "title": "Barbell Shoulder Press \u2014 Strength Score",
           "vizConfig": {
             "group": "timeseries",
             "kind": "VizConfig",
@@ -1214,56 +1076,10 @@
                         "value": 0
                       }
                     ]
-                  }
-                },
-                "overrides": [
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Heaviest set (lb)"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "right"
-                      },
-                      {
-                        "id": "unit",
-                        "value": "short"
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#D9A441"
-                        }
-                      }
-                    ]
                   },
-                  {
-                    "matcher": {
-                      "id": "byName",
-                      "options": "Strength score"
-                    },
-                    "properties": [
-                      {
-                        "id": "custom.axisPlacement",
-                        "value": "left"
-                      },
-                      {
-                        "id": "decimals",
-                        "value": 3
-                      },
-                      {
-                        "id": "color",
-                        "value": {
-                          "mode": "fixed",
-                          "fixedColor": "#4C8CFF"
-                        }
-                      }
-                    ]
-                  }
-                ]
+                  "decimals": 3
+                },
+                "overrides": []
               },
               "options": {
                 "annotations": {
