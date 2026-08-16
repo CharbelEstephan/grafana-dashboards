@@ -1391,6 +1391,17 @@
           "title": "Luck score by store",
           "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"thresholds"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#0E8C6E","value":4}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cftjb82cb5tkwf"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT x.domain || '  (' || COUNT(*) || ')' AS \"Domain\", ROUND(100.0 * COUNT(*) FILTER (WHERE x.won) / COUNT(*), 1) AS \"Win %\" FROM (SELECT my_domain_1 AS domain, won, played_on FROM games UNION ALL SELECT my_domain_2 AS domain, won, played_on FROM games WHERE my_domain_2 IS NOT NULL) x WHERE x.domain IS NOT NULL AND $__timeFilter(x.played_on) GROUP BY x.domain ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Your win rate playing each domain. A two-domain deck counts toward both of its domains, so games can land in two bars. Sample size in brackets.",
+          "id": 25,
+          "links": [],
+          "title": "Win rate by domain",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"thresholds"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"max":100,"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#D9A441","value":45},{"color":"#0E8C6E","value":55}]},"unit":"percent"},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -1521,6 +1532,19 @@
               "width": 24,
               "x": 0,
               "y": 45
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-25"
+              },
+              "height": 8,
+              "width": 24,
+              "x": 0,
+              "y": 54
             }
           }
                   ]
