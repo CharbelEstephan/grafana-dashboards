@@ -369,6 +369,28 @@
           "title": "Longest win & losing streaks",
           "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Longest win streak"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"Longest losing streak"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-32": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT COALESCE(m.alias, m.display_name) AS \"Manager\", p.full_name AS \"Player\", p.position AS \"Pos\", count(*) AS \"Weeks rostered\", count(DISTINCT pw.season) AS \"Seasons\" FROM player_week pw JOIN seasons s ON s.league_id = pw.league_id LEFT JOIN managers m ON m.user_id = pw.user_id LEFT JOIN players p ON p.player_id = pw.player_id WHERE s.league_group = 'Sundays For the Boys' GROUP BY 1, 2, 3 ORDER BY count(*) DESC LIMIT 15","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Manager-player pairs by total weeks on the roster across all 3 years (54 = every single week). Counts any week rostered, however the player was acquired. 2023-present.",
+          "id": 32,
+          "links": [],
+          "title": "Ride or die (most weeks rostered)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Weeks rostered"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-33": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH wk AS (SELECT COALESCE(m.alias, m.display_name) AS manager, pw.player_id, p.full_name, p.position, (pw.season-2023)*18 + pw.week AS gidx FROM player_week pw JOIN seasons s ON s.league_id = pw.league_id LEFT JOIN managers m ON m.user_id = pw.user_id LEFT JOIN players p ON p.player_id = pw.player_id WHERE s.league_group = 'Sundays For the Boys'), islands AS (SELECT manager, full_name, position, player_id, gidx - ROW_NUMBER() OVER (PARTITION BY manager, player_id ORDER BY gidx) AS grp FROM wk), stints AS (SELECT manager, full_name, position, player_id, grp, count(*) AS wks FROM islands GROUP BY 1, 2, 3, 4, grp) SELECT manager AS \"Manager\", full_name AS \"Player\", position AS \"Pos\", count(*) AS \"Separate stints\", sum(wks) AS \"Total weeks\" FROM stints GROUP BY 1, 2, 3 HAVING count(*) >= 3 ORDER BY count(*) DESC, sum(wks) DESC LIMIT 15","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Manager-player pairs rostered in the most separate stints — dropped and then picked back up (or re-drafted / re-traded). The 'can't quit him' award. 2023-present.",
+          "id": 33,
+          "links": [],
+          "title": "Can't quit him (kept re-acquiring)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Separate stints"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#7C6CFF","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -471,6 +493,22 @@
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-30"},"height":9,"width":24,"x":0,"y":9}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-29"},"height":8,"width":12,"x":0,"y":18}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-31"},"height":9,"width":12,"x":12,"y":18}}
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Roster Loyalty",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-32"},"height":12,"width":12,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-33"},"height":12,"width":12,"x":12,"y":0}}
                   ]
                 }
               }
