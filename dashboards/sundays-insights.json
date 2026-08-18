@@ -44,7 +44,7 @@
         "kind": "Panel",
         "spec": {
           "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", season AS \"Season\", wins AS \"W\", losses AS \"L\" FROM v_season_standings WHERE league_group = 'Sundays For the Boys' ORDER BY wins DESC, losses ASC LIMIT 10","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
-          "description": "Best single-season records, 2020-present. Note 2024 ran a longer schedule, so its win totals sit higher.",
+          "description": "Best regular-season records, 2020-present. Sleeper era (2023+) is counted from head-to-head results, so median-scoring years like 2024 are not double-counted.",
           "id": 2,
           "links": [],
           "title": "Most wins in a season",
@@ -55,7 +55,7 @@
         "kind": "Panel",
         "spec": {
           "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", season AS \"Season\", losses AS \"L\", wins AS \"W\" FROM v_season_standings WHERE league_group = 'Sundays For the Boys' ORDER BY losses DESC, wins ASC LIMIT 10","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
-          "description": "Worst single-season records, 2020-present.",
+          "description": "Worst regular-season records, 2020-present. Sleeper era (2023+) counted from head-to-head results.",
           "id": 3,
           "links": [],
           "title": "Most losses in a season",
