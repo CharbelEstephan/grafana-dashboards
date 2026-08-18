@@ -411,7 +411,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Overview",
               "layout": {
                 "kind": "GridLayout",
@@ -435,7 +435,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Trades & Transactions",
               "layout": {
                 "kind": "GridLayout",
@@ -455,7 +455,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Drafting (auction $)",
               "layout": {
                 "kind": "GridLayout",
@@ -474,7 +474,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Win Trends — Who Owns Who",
               "layout": {
                 "kind": "GridLayout",
@@ -493,7 +493,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Coaching & Luck",
               "layout": {
                 "kind": "GridLayout",
@@ -512,7 +512,7 @@
           {
             "kind": "RowsLayoutRow",
             "spec": {
-              "collapse": false,
+              "collapse": true,
               "title": "Roster Loyalty",
               "layout": {
                 "kind": "GridLayout",
