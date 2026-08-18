@@ -76,8 +76,8 @@
       "panel-5": {
         "kind": "Panel",
         "spec": {
-          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT toilet_bowl AS \"Manager\", COUNT(*) AS \"Toilet bowls\" FROM history_seasons WHERE league_group = 'Sundays For the Boys' AND toilet_bowl IS NOT NULL GROUP BY toilet_bowl ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
-          "description": "Dead-last finishes (toilet bowls lost), 2019-present.",
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT toilet_bowl AS \"Manager\", COUNT(*) AS \"Toilet bowls\", string_agg(season::text, ', ' ORDER BY season) AS \"Seasons\" FROM history_seasons WHERE league_group = 'Sundays For the Boys' AND toilet_bowl IS NOT NULL GROUP BY toilet_bowl ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Dead-last finishes (toilet bowls lost) and the years, 2019-present.",
           "id": 5,
           "links": [],
           "title": "Toilet Bowl Hall of Shame",
