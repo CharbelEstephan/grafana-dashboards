@@ -391,6 +391,17 @@
           "title": "Can't quit him (kept re-acquiring)",
           "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Separate stints"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#7C6CFF","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-34": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT COALESCE(m.alias, m.display_name) AS \"Manager\", count(*) FILTER (WHERE ditched) AS \"Draft picks ditched\" FROM (SELECT dp.user_id, EXISTS(SELECT 1 FROM transactions t JOIN transaction_moves tm ON tm.transaction_id = t.transaction_id WHERE t.league_id = dp.league_id AND t.season = dp.season AND t.status = 'complete' AND tm.player_id = dp.player_id AND tm.roster_id = dp.roster_id AND tm.action = 'drop') AS ditched FROM draft_picks dp JOIN seasons s ON s.league_id = dp.league_id WHERE s.league_group = 'Sundays For the Boys') x LEFT JOIN managers m ON m.user_id = x.user_id GROUP BY 1 ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "How many of each manager's own draft picks they later dropped or traded away (each drafted 42 across 2023-present). Higher = quicker to bail on their guys. Trades count because a player you trade away is logged as a drop on your roster.",
+          "id": 34,
+          "links": [],
+          "title": "Unloyalty — ditched their own draft picks",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"#C4453B","mode":"fixed"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -508,7 +519,8 @@
                 "spec": {
                   "items": [
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-32"},"height":12,"width":12,"x":0,"y":0}},
-                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-33"},"height":12,"width":12,"x":12,"y":0}}
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-33"},"height":12,"width":12,"x":12,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-34"},"height":9,"width":24,"x":0,"y":12}}
                   ]
                 }
               }
