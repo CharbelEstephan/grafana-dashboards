@@ -204,6 +204,171 @@
           "title": "Busiest roster weeks (add + drop frenzy)",
           "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Total moves"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#4C4FE0","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-17": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT DISTINCT manager AS \"Manager\", full_name AS \"Player\", position AS \"Pos\", times_drafted_by_mgr AS \"Times drafted\" FROM v_draft_tendencies WHERE league_group = 'Sundays For the Boys' AND times_drafted_by_mgr > 1 ORDER BY times_drafted_by_mgr DESC, manager LIMIT 10","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Players a manager drafted in more than one season — auction loyalty, 2023-present.",
+          "id": 17,
+          "links": [],
+          "title": "Draft loyalty (same player, multiple years)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Times drafted"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-18": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", SUM(amount) FILTER (WHERE position='QB') AS \"QB\", SUM(amount) FILTER (WHERE position='RB') AS \"RB\", SUM(amount) FILTER (WHERE position='WR') AS \"WR\", SUM(amount) FILTER (WHERE position='TE') AS \"TE\" FROM v_draft_tendencies WHERE league_group = 'Sundays For the Boys' GROUP BY manager ORDER BY manager","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "How each manager splits auction $ across positions, 2023-present. Bars normalized to 100% of budget.",
+          "id": 18,
+          "links": [],
+          "title": "Auction budget by position",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"palette-classic"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"QB"},"properties":[{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"RB"},"properties":[{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"WR"},"properties":[{"id":"color","value":{"fixedColor":"#4C4FE0","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"TE"},"properties":[{"id":"color","value":{"fixedColor":"#7C6CFF","mode":"fixed"}}]}]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":true},"orientation":"horizontal","showValue":"never","stacking":"percent","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-19": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", count(*) FILTER (WHERE position='QB') AS \"QB\", count(*) FILTER (WHERE position='RB') AS \"RB\", count(*) FILTER (WHERE position='WR') AS \"WR\", count(*) FILTER (WHERE position='TE') AS \"TE\", count(*) AS \"Total\" FROM v_draft_tendencies WHERE league_group = 'Sundays For the Boys' GROUP BY manager ORDER BY manager","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Count of each position drafted per manager, 2023-present.",
+          "id": 19,
+          "links": [],
+          "title": "Players drafted by position",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Total"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#7C6CFF","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-20": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", ROUND(AVG(amount) FILTER (WHERE position='QB'),1) AS \"Avg $ / QB\", ROUND(AVG(amount) FILTER (WHERE position='TE'),1) AS \"Avg $ / TE\" FROM v_draft_tendencies WHERE league_group = 'Sundays For the Boys' GROUP BY manager ORDER BY \"Avg $ / QB\" DESC NULLS LAST","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Average auction $ spent per QB and per TE — who overpays at the thin positions, 2023-present.",
+          "id": 20,
+          "links": [],
+          "title": "Positional reaches (avg $ on QB & TE)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Avg $ / QB"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"Avg $ / TE"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-21": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", ROUND(SUM(amount*pick_no)::numeric/NULLIF(SUM(amount),0),1) AS \"Avg pick of $ spent\" FROM v_draft_tendencies WHERE league_group = 'Sundays For the Boys' GROUP BY manager ORDER BY 2 ASC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Dollar-weighted average overall pick number. Lower = blows the budget early on studs; higher = hangs back for value. 2023-present.",
+          "id": 21,
+          "links": [],
+          "title": "Auction pace — when the money goes",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"#7C6CFF","mode":"fixed"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"decimals":1,"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-22": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", MAX(CASE WHEN opponent='Bubbles' THEN wins||'-'||losses END) AS \"Bubbles\", MAX(CASE WHEN opponent='Charb' THEN wins||'-'||losses END) AS \"Charb\", MAX(CASE WHEN opponent='Connor' THEN wins||'-'||losses END) AS \"Connor\", MAX(CASE WHEN opponent='Jahn' THEN wins||'-'||losses END) AS \"Jahn\", MAX(CASE WHEN opponent='Joel' THEN wins||'-'||losses END) AS \"Joel\", MAX(CASE WHEN opponent='Lanz' THEN wins||'-'||losses END) AS \"Lanz\", MAX(CASE WHEN opponent='Pate' THEN wins||'-'||losses END) AS \"Pate\", MAX(CASE WHEN opponent='Skeetdawg' THEN wins||'-'||losses END) AS \"Skeetdawg\", MAX(CASE WHEN opponent='T1' THEN wins||'-'||losses END) AS \"T1\", MAX(CASE WHEN opponent='T2' THEN wins||'-'||losses END) AS \"T2\", MAX(CASE WHEN opponent='Will' THEN wins||'-'||losses END) AS \"Will\", MAX(CASE WHEN opponent='shades' THEN wins||'-'||losses END) AS \"shades\" FROM v_h2h WHERE league_group = 'Sundays For the Boys' GROUP BY manager ORDER BY manager","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Each row is a manager; each cell is their all-time record vs that opponent (wins-losses), 2023-present. Read across your row to see how you fare against each rival.",
+          "id": 22,
+          "links": [],
+          "title": "Who Owns Who — all-time head-to-head (W-L)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"center","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Manager"},"properties":[{"id":"custom.align","value":"left"}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-23": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Owner\", opponent AS \"Victim\", wins||'-'||losses AS \"Record\", games AS \"Games\", ROUND(avg_margin,1) AS \"Avg margin\" FROM v_h2h WHERE league_group = 'Sundays For the Boys' AND games >= 3 ORDER BY (wins-losses) DESC, games DESC LIMIT 8","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Most lopsided head-to-head records, minimum 3 meetings, 2023-present.",
+          "id": 23,
+          "links": [],
+          "title": "Who owns who the most (min 3 games)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Record"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-24": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT least(manager,opponent) AS \"Manager A\", greatest(manager,opponent) AS \"Manager B\", MAX(games) AS \"Times played\" FROM v_h2h WHERE league_group = 'Sundays For the Boys' GROUP BY 1,2 ORDER BY 3 DESC LIMIT 8","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Pairs who have faced each other the most, 2023-present.",
+          "id": 24,
+          "links": [],
+          "title": "Most-played rivalries",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Times played"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#4C4FE0","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-25": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT least(manager,opponent) AS \"Manager A\", greatest(manager,opponent) AS \"Manager B\", count(*) AS \"Games\", ROUND(avg(abs(margin)),1) AS \"Avg margin\" FROM v_matchup_results WHERE league_group = 'Sundays For the Boys' GROUP BY 1,2 HAVING count(*) >= 3 ORDER BY 4 ASC LIMIT 8","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Pairs with the smallest average margin — the true coin-flips, min 3 games, 2023-present.",
+          "id": 25,
+          "links": [],
+          "title": "Coin-flip rivalries (closest)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Avg margin"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-26": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT least(manager,opponent) AS \"Manager A\", greatest(manager,opponent) AS \"Manager B\", count(*) AS \"Games\", ROUND(stddev_samp(margin),1) AS \"Margin swing\" FROM v_matchup_results WHERE league_group = 'Sundays For the Boys' GROUP BY 1,2 HAVING count(*) >= 3 ORDER BY 4 DESC NULLS LAST LIMIT 8","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Pairs with the highest score-margin variance — wild swings game to game, min 3 games, 2023-present.",
+          "id": 26,
+          "links": [],
+          "title": "Most volatile matchups",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Margin swing"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-27": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", ROUND(100.0*SUM(points_for)/NULLIF(SUM(potential_points),0),1) AS \"Efficiency %\" FROM v_manager_season WHERE league_group = 'Sundays For the Boys' AND potential_points > 0 GROUP BY manager ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Points scored as a share of best-possible lineup points, all-time. Higher = better lineup-setter. 2023-present.",
+          "id": 27,
+          "links": [],
+          "title": "Coaching efficiency — all-time",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"thresholds"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"decimals":1,"max":100,"min":80,"thresholds":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#D9A441","value":86},{"color":"#0E8C6E","value":89}]},"unit":"percent"},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-28": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", MAX(ROUND(100*coaching_efficiency,1)) FILTER (WHERE season=2023) AS \"2023\", MAX(ROUND(100*coaching_efficiency,1)) FILTER (WHERE season=2024) AS \"2024\", MAX(ROUND(100*coaching_efficiency,1)) FILTER (WHERE season=2025) AS \"2025\", ROUND(100.0*SUM(points_for)/NULLIF(SUM(potential_points),0),1) AS \"All-time\" FROM v_manager_season WHERE league_group = 'Sundays For the Boys' AND potential_points > 0 GROUP BY manager ORDER BY \"All-time\" DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Actual / optimal points per season and all-time (%). 2023-present.",
+          "id": 28,
+          "links": [],
+          "title": "Coaching efficiency by season",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"All-time"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-29": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH pw AS (SELECT pw.season, pw.week, pw.roster_id, COALESCE(m.alias,m.display_name) AS manager, SUM(pw.points) FILTER (WHERE pw.is_starter) AS starters, SUM(pw.points) FILTER (WHERE NOT pw.is_starter) AS bench FROM player_week pw JOIN seasons s ON s.league_id=pw.league_id LEFT JOIN managers m ON m.user_id=pw.user_id WHERE s.league_group = 'Sundays For the Boys' GROUP BY 1,2,3,4) SELECT manager AS \"Manager\", COUNT(*) FILTER (WHERE bench>starters) AS \"Weeks bench outscored starters\" FROM pw GROUP BY manager HAVING COUNT(*) FILTER (WHERE bench>starters) > 0 ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Weeks a manager's bench outscored their entire starting lineup, 2023-present. Only managers it happened to are shown.",
+          "id": 29,
+          "links": [],
+          "title": "Should've Left the Bench Alone",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Weeks bench outscored starters"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-30": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH ap AS (SELECT user_id, manager, SUM(allplay_wins) aw, SUM(allplay_losses) al, SUM(allplay_ties) att FROM v_luck WHERE league_group = 'Sundays For the Boys' GROUP BY user_id, manager), hh AS (SELECT user_id, SUM(wins) w, SUM(losses) l, SUM(ties) t FROM v_season_standings WHERE league_group = 'Sundays For the Boys' AND source='sleeper' GROUP BY user_id) SELECT ap.manager AS \"Manager\", ROUND(100.0*hh.w/NULLIF(hh.w+hh.l+hh.t,0) - 100.0*ap.aw/NULLIF(ap.aw+ap.al+ap.att,0),1) AS \"Luck index\" FROM ap JOIN hh ON hh.user_id=ap.user_id ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "How much better (+) or worse (-) a manager's real win % is than their all-play win % (if they played everyone every week). Positive = lucky, negative = unlucky. 2023-present.",
+          "id": 30,
+          "links": [],
+          "title": "Luck index (actual vs. all-play)",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"mode":"thresholds"},"custom":{"axisBorderShow":false,"axisCenteredZero":true,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"decimals":1,"thresholds":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#0E8C6E","value":0}]},"unit":"percent"},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-31": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH g AS (SELECT user_id, manager, result, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY season,week) - ROW_NUMBER() OVER (PARTITION BY user_id, result ORDER BY season,week) AS grp FROM v_matchup_results WHERE league_group = 'Sundays For the Boys'), streaks AS (SELECT user_id, manager, result, count(*) len FROM g GROUP BY user_id, manager, result, grp) SELECT manager AS \"Manager\", COALESCE(MAX(len) FILTER (WHERE result='W'),0) AS \"Longest win streak\", COALESCE(MAX(len) FILTER (WHERE result='L'),0) AS \"Longest losing streak\" FROM streaks GROUP BY manager ORDER BY \"Longest win streak\" DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Longest consecutive win and loss runs, across regular season and playoffs, 2023-present.",
+          "id": 31,
+          "links": [],
+          "title": "Longest win & losing streaks",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Longest win streak"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"Longest losing streak"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -249,6 +414,63 @@
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-14"},"height":9,"width":12,"x":12,"y":9}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-15"},"height":8,"width":12,"x":0,"y":18}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-16"},"height":8,"width":12,"x":12,"y":18}}
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Drafting (auction $)",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-17"},"height":10,"width":12,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-18"},"height":10,"width":12,"x":12,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-19"},"height":9,"width":12,"x":0,"y":10}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-20"},"height":9,"width":12,"x":12,"y":10}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-21"},"height":8,"width":24,"x":0,"y":19}}
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Win Trends — Who Owns Who",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-22"},"height":13,"width":24,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-23"},"height":9,"width":12,"x":0,"y":13}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-24"},"height":9,"width":12,"x":12,"y":13}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-25"},"height":9,"width":12,"x":0,"y":22}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-26"},"height":9,"width":12,"x":12,"y":22}}
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Coaching & Luck",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-27"},"height":9,"width":12,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-28"},"height":9,"width":12,"x":12,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-30"},"height":9,"width":24,"x":0,"y":9}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-29"},"height":8,"width":12,"x":0,"y":18}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-31"},"height":9,"width":12,"x":12,"y":18}}
                   ]
                 }
               }
