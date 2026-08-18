@@ -1,0 +1,192 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "sundays-for-the-boys"
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "builtIn": true,
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "query": {
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "group": "grafana",
+            "kind": "DataQuery",
+            "spec": {},
+            "version": "v0"
+          }
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "editable": true,
+    "elements": {
+      "panel-1": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[],"queryOptions":{},"transformations":[]}},
+          "description": "",
+          "id": 1,
+          "links": [],
+          "title": "",
+          "vizConfig": {"group":"text","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{},"overrides":[]},"options":{"mode":"markdown","content":"### Sundays For the Boys\nThe only league shown here. **Detailed game / trade / draft data: 2023–present** (the Sleeper era). **Champions & toilet bowls go back to 2019**; season standings to 2020. Records that say \"ever\" mean 2023-present unless noted."}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", season AS \"Season\", wins AS \"W\", losses AS \"L\" FROM v_season_standings WHERE league_group = 'Sundays For the Boys' ORDER BY wins DESC, losses ASC LIMIT 10","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Best single-season records, 2020-present. Note 2024 ran a longer schedule, so its win totals sit higher.",
+          "id": 2,
+          "links": [],
+          "title": "Most wins in a season",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"W"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-3": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", season AS \"Season\", losses AS \"L\", wins AS \"W\" FROM v_season_standings WHERE league_group = 'Sundays For the Boys' ORDER BY losses DESC, wins ASC LIMIT 10","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Worst single-season records, 2020-present.",
+          "id": 3,
+          "links": [],
+          "title": "Most losses in a season",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"L"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-4": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT name AS \"Manager\", SUM((name = champion)::int) AS \"Titles\", SUM((name = champion OR name = runner_up)::int) AS \"Final appearances\" FROM history_seasons, LATERAL (VALUES (champion), (runner_up)) v(name) WHERE league_group = 'Sundays For the Boys' AND name IS NOT NULL GROUP BY name HAVING SUM((name = champion OR name = runner_up)::int) > 0 ORDER BY 2 DESC, 3 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Championships won and total finals appearances (champion or runner-up), 2019-present.",
+          "id": 4,
+          "links": [],
+          "title": "Championship pedigree",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Titles"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true,"sortBy":[{"desc":true,"displayName":"Titles"}]}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-5": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT toilet_bowl AS \"Manager\", COUNT(*) AS \"Toilet bowls\", string_agg(season::text, ', ' ORDER BY season) AS \"Seasons\" FROM history_seasons WHERE league_group = 'Sundays For the Boys' AND toilet_bowl IS NOT NULL GROUP BY toilet_bowl ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Last-place / toilet-bowl finishes, 2019-present.",
+          "id": 5,
+          "links": [],
+          "title": "Toilet Bowl Hall of Shame",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Toilet bowls"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true,"sortBy":[{"desc":true,"displayName":"Toilet bowls"}]}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-6": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Winner\", opponent AS \"Loser\", points_for || ' - ' || points_against AS \"Score\", ROUND(margin, 2) AS \"Margin\", season AS \"Season\", week AS \"Week\" FROM v_matchup_results WHERE league_group = 'Sundays For the Boys' AND margin > 0 ORDER BY margin DESC LIMIT 1","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Largest margin of victory, 2023-present.",
+          "id": 6,
+          "links": [],
+          "title": "Biggest beatdown ever",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Margin"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-7": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Winner\", opponent AS \"Loser\", points_for || ' - ' || points_against AS \"Score\", ROUND(margin, 2) AS \"Margin\", season AS \"Season\", week AS \"Week\" FROM v_matchup_results WHERE league_group = 'Sundays For the Boys' AND margin > 0 ORDER BY margin ASC LIMIT 1","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Smallest winning margin, 2023-present. The ultimate nail-biter.",
+          "id": 7,
+          "links": [],
+          "title": "Closest win ever",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Margin"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-8": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"(SELECT 'Highest' AS \"Kind\", COALESCE(m.alias, m.display_name) AS \"Manager\", ROUND(tw.points, 2) AS \"Points\", tw.season AS \"Season\", tw.week AS \"Week\" FROM team_week tw JOIN seasons s ON s.league_id = tw.league_id LEFT JOIN managers m ON m.user_id = tw.user_id WHERE s.league_group = 'Sundays For the Boys' AND tw.points IS NOT NULL AND tw.matchup_id IS NOT NULL ORDER BY tw.points DESC LIMIT 1) UNION ALL (SELECT 'Lowest', COALESCE(m.alias, m.display_name), ROUND(tw.points, 2), tw.season, tw.week FROM team_week tw JOIN seasons s ON s.league_id = tw.league_id LEFT JOIN managers m ON m.user_id = tw.user_id WHERE s.league_group = 'Sundays For the Boys' AND tw.points IS NOT NULL AND tw.matchup_id IS NOT NULL ORDER BY tw.points ASC LIMIT 1)","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "The single best and single worst weekly score any manager has posted, 2023-present.",
+          "id": 8,
+          "links": [],
+          "title": "Single-week scoring extremes",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Points"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"mode":"thresholds"}},{"id":"thresholds","value":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#D9A441","value":80},{"color":"#0E8C6E","value":130}]}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-9": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"WITH wk AS (SELECT tw.season, tw.week, COALESCE(m.alias, m.display_name) AS manager, RANK() OVER (PARTITION BY tw.league_id, tw.season, tw.week ORDER BY tw.points DESC) AS rk FROM team_week tw JOIN seasons s ON s.league_id = tw.league_id LEFT JOIN managers m ON m.user_id = tw.user_id WHERE s.league_group = 'Sundays For the Boys' AND tw.points IS NOT NULL AND tw.matchup_id IS NOT NULL) SELECT manager AS \"Manager\", COUNT(*) AS \"Top weeks\" FROM wk WHERE rk = 1 GROUP BY manager ORDER BY 2 DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "How many weeks each manager posted the single highest score in the league, 2023-present.",
+          "id": 9,
+          "links": [],
+          "title": "Weekly high-score crowns",
+          "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"#0E8C6E","mode":"fixed"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
+        }
+      }
+    },
+    "layout": {
+      "kind": "RowsLayout",
+      "spec": {
+        "rows": [
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": false,
+              "title": "Overview",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-1"},"height":3,"width":24,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-2"},"height":9,"width":12,"x":0,"y":3}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-3"},"height":9,"width":12,"x":12,"y":3}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-4"},"height":9,"width":12,"x":0,"y":12}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-5"},"height":9,"width":12,"x":12,"y":12}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-6"},"height":6,"width":12,"x":0,"y":21}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-7"},"height":6,"width":12,"x":12,"y":21}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-8"},"height":7,"width":12,"x":0,"y":27}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-9"},"height":7,"width":12,"x":12,"y":27}}
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [
+      "fantasy-football",
+      "sundays-for-the-boys"
+    ],
+    "timeSettings": {
+      "autoRefresh": "",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "fiscalYearStartMonth": 0,
+      "from": "now-1y",
+      "hideTimepicker": true,
+      "timezone": "browser",
+      "to": "now"
+    },
+    "title": "Sundays For the Boys insights",
+    "variables": []
+  }
+}
