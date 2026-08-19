@@ -402,6 +402,50 @@
           "title": "Unloyalty — ditched their own draft picks",
           "vizConfig": {"group":"barchart","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"color":{"fixedColor":"#C4453B","mode":"fixed"},"custom":{"axisBorderShow":false,"axisCenteredZero":false,"axisColorMode":"text","axisLabel":"","axisPlacement":"auto","axisSoftMin":0,"fillOpacity":85,"gradientMode":"none","hideFrom":{"legend":false,"tooltip":false,"viz":false},"lineWidth":1,"scaleDistribution":{"type":"linear"},"thresholdsStyle":{"mode":"off"}},"min":0,"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"barRadius":0,"barWidth":0.8,"fullHighlight":false,"groupWidth":0.7,"legend":{"calcs":[],"displayMode":"list","overflow":"ellipsis","placement":"bottom","showLegend":false},"orientation":"horizontal","showValue":"always","stacking":"none","tooltip":{"hideZeros":false,"mode":"single","sort":"none"},"xTickLabelRotation":0,"xTickLabelSpacing":0}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-35": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[],"queryOptions":{},"transformations":[]}},
+          "description": "",
+          "id": 35,
+          "links": [],
+          "title": "",
+          "vizConfig": {"group":"text","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{},"overrides":[]},"options":{"mode":"markdown","content":"### ESPN era — 2017 to 2022\nThe league's pre-Sleeper history, transcribed from the hand-kept archive spreadsheet. These are **fixed career totals** for that window — not derived from game data (which only exists from 2023 on), so there's no week-by-week detail here. Former members **Alex, Lund, Ryan** appear as names only. Champions & toilet bowls here overlap 2019–2022 with the Overview tiles by design — different window, different framing."}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-36": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", championships AS \"Titles\", runner_ups AS \"Runner-ups\", third_place AS \"Third\", playoff_appearances AS \"PO appearances\", playoff_wins AS \"PO wins\", playoff_byes AS \"PO byes\", reg_season_best AS \"Best reg. record\", top3_finishes AS \"Top 3\", toilet_bowls AS \"Toilet bowls\", avg_finish AS \"Avg finish\" FROM history_manager_totals ORDER BY championships DESC, runner_ups DESC, playoff_appearances DESC, total_wins DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Career titles and playoff résumé, 2017-2022 (ESPN era). Avg finish: lower is better.",
+          "id": 36,
+          "links": [],
+          "title": "Titles & playoffs (2017-2022)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Titles"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"Toilet bowls"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-37": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", total_wins AS \"W\", total_losses AS \"L\", win_pct AS \"Win %\", avg_points AS \"Avg pts/matchup\", highest_score AS \"High score\", lowest_score AS \"Low score\" FROM history_manager_totals ORDER BY win_pct DESC, total_wins DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Career regular-season record and scoring, 2017-2022. Blanks = not recorded in the archive.",
+          "id": 37,
+          "links": [],
+          "title": "Record & scoring (2017-2022)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Win %"},"properties":[{"id":"unit","value":"percent"},{"id":"max","value":100},{"id":"min","value":0},{"id":"custom.cellOptions","value":{"mode":"gradient","type":"gauge"}},{"id":"thresholds","value":{"mode":"absolute","steps":[{"color":"#C4453B","value":0},{"color":"#D9A441","value":45},{"color":"#0E8C6E","value":55}]}}]},{"matcher":{"id":"byName","options":"High score"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]},{"matcher":{"id":"byName","options":"Low score"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#C4453B","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-38": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT manager AS \"Manager\", best_opp AS \"Dominates (best record vs.)\", worst_opp AS \"Tormented by (worst record vs.)\" FROM history_manager_totals WHERE best_opp IS NOT NULL OR worst_opp IS NOT NULL ORDER BY sort_order","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Each manager's best and worst all-time head-to-head record vs. a single opponent, 2017-2022.",
+          "id": 38,
+          "links": [],
+          "title": "Nemeses & favorite opponents (2017-2022)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -521,6 +565,24 @@
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-32"},"height":12,"width":12,"x":0,"y":0}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-33"},"height":12,"width":12,"x":12,"y":0}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-34"},"height":9,"width":24,"x":0,"y":12}}
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "kind": "RowsLayoutRow",
+            "spec": {
+              "collapse": true,
+              "title": "Pre-Sleeper Era (2017–2022)",
+              "layout": {
+                "kind": "GridLayout",
+                "spec": {
+                  "items": [
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-35"},"height":3,"width":24,"x":0,"y":0}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-36"},"height":11,"width":24,"x":0,"y":3}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-37"},"height":11,"width":13,"x":0,"y":14}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-38"},"height":11,"width":11,"x":13,"y":14}}
                   ]
                 }
               }
