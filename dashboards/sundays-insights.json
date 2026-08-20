@@ -446,6 +446,50 @@
           "title": "Nemeses & favorite opponents (2017-2022)",
           "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
         }
+      },
+      "panel-39": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[],"queryOptions":{},"transformations":[]}},
+          "description": "",
+          "id": 39,
+          "links": [],
+          "title": "",
+          "vizConfig": {"group":"text","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{},"overrides":[]},"options":{"mode":"markdown","content":"### Draft history spans two eras\nAuction, **$200 budget** in both. Covers **2017–2020** (ESPN era, mapped from the old sheets) and **2023–2025** (Sleeper). **2021–2022 drafts weren't recorded**, and none of the years here were superflex. The panels above (budget by position, reaches, auction pace) stay Sleeper-only because the old sheets had no positions; the tables below are **all-time**, spanning both eras."}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-40": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT DISTINCT ON (position) position AS \"Position\", player AS \"Player\", amount AS \"Winning bid ($)\", manager AS \"Manager\", season AS \"Season\", era AS \"Era\" FROM v_all_drafts WHERE position IN ('QB','RB','WR','TE') ORDER BY position, amount DESC","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "The single highest auction $ ever spent on each skill position, 2017-2025.",
+          "id": 40,
+          "links": [],
+          "title": "Largest auction bid by position (all-time)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Winning bid ($)"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-41": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT season AS \"Season\", manager AS \"Manager\", player AS \"Player\", position AS \"Pos\", amount AS \"Bid ($)\", era AS \"Era\" FROM v_all_drafts ORDER BY amount DESC LIMIT 15","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "The 15 priciest single-player auction buys across both eras, 2017-2025. RB-heavy early years dominate.",
+          "id": 41,
+          "links": [],
+          "title": "Biggest auction buys ever",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Bid ($)"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#D9A441","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
+      },
+      "panel-42": {
+        "kind": "Panel",
+        "spec": {
+          "data": {"kind":"QueryGroup","spec":{"queries":[{"kind":"PanelQuery","spec":{"hidden":false,"query":{"datasource":{"name":"cfvidd1r5wni8e"},"group":"grafana-postgresql-datasource","kind":"DataQuery","spec":{"editorMode":"code","format":"table","rawQuery":true,"rawSql":"SELECT player AS \"Player\", count(*) AS \"Times drafted\", count(DISTINCT manager) AS \"By managers\", min(season)||'-'||max(season) AS \"Span\" FROM v_all_drafts WHERE position IN ('QB','RB','WR','TE') GROUP BY player ORDER BY count(*) DESC, player LIMIT 12","sql":{"columns":[{"parameters":[],"type":"function"}],"groupBy":[],"limit":50}},"version":"v0"},"refId":"A"}}],"queryOptions":{},"transformations":[]}},
+          "description": "Players drafted the most times across all managers and seasons, 2017-2025.",
+          "id": 42,
+          "links": [],
+          "title": "Most-drafted players (all-time)",
+          "vizConfig": {"group":"table","kind":"VizConfig","spec":{"fieldConfig":{"defaults":{"custom":{"align":"auto","cellOptions":{"type":"auto"},"filterable":false,"footer":{"reducers":[]},"inspect":false},"thresholds":{"mode":"absolute","steps":[{"color":"text","value":0}]}},"overrides":[{"matcher":{"id":"byName","options":"Times drafted"},"properties":[{"id":"custom.cellOptions","value":{"type":"color-text"}},{"id":"color","value":{"fixedColor":"#0E8C6E","mode":"fixed"}}]}]},"options":{"cellHeight":"sm","showHeader":true}},"version":"13.2.0-29988805803"}
+        }
       }
     },
     "layout": {
@@ -509,7 +553,11 @@
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-18"},"height":10,"width":12,"x":12,"y":0}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-19"},"height":9,"width":12,"x":0,"y":10}},
                     {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-20"},"height":9,"width":12,"x":12,"y":10}},
-                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-21"},"height":8,"width":24,"x":0,"y":19}}
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-21"},"height":8,"width":24,"x":0,"y":19}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-39"},"height":3,"width":24,"x":0,"y":27}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-40"},"height":9,"width":12,"x":0,"y":30}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-42"},"height":9,"width":12,"x":12,"y":30}},
+                    {"kind":"GridLayoutItem","spec":{"element":{"kind":"ElementReference","name":"panel-41"},"height":11,"width":24,"x":0,"y":39}}
                   ]
                 }
               }
